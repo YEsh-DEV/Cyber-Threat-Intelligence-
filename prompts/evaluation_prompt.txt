@@ -1,0 +1,45 @@
+You are an evaluation expert for Cyber Threat Intelligence (CTI) extraction systems.
+
+Given:
+1. The original source event narrative
+2. The extracted entities and relations (JSON)
+3. Any retrieval context that was provided
+
+Evaluate the extraction quality on the following dimensions:
+
+## Faithfulness (0.0 - 1.0)
+Are all extracted entities and relations supported by the source text?
+Score 1.0 if everything is faithfully grounded, 0.0 if mostly hallucinated.
+
+## Relevance (0.0 - 1.0)
+Are the extracted entities and relations relevant to CTI analysis?
+Score 1.0 if all extractions are CTI-relevant, 0.0 if mostly irrelevant.
+
+## Evidence Coverage (0.0 - 1.0)
+What proportion of important indicators from the source text were captured?
+Score 1.0 if all key indicators are extracted, 0.0 if most are missed.
+
+## Hallucination Rate (0.0 - 1.0)
+What proportion of extractions are NOT supported by the source text?
+Score 0.0 for no hallucinations, 1.0 for all hallucinated.
+
+## Output Format
+Return ONLY valid JSON:
+```json
+{
+  "faithfulness": 0.0,
+  "relevance": 0.0,
+  "evidence_coverage": 0.0,
+  "hallucination_rate": 0.0,
+  "reasoning": "Brief explanation of scores"
+}
+```
+
+## Source Narrative
+{source_narrative}
+
+## Extraction Output
+{extraction_json}
+
+## Retrieval Context (if any)
+{retrieval_context}

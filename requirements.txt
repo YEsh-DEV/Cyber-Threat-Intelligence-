@@ -1,0 +1,30 @@
+# CTI Knowledge Graph Extraction & Benchmarking Framework
+# Core Dependencies
+
+# Configuration
+python-dotenv>=1.0.0
+
+# Schema Validation
+pydantic>=2.0.0
+
+# XML Parsing (optional, stdlib xml.etree works for now)
+# lxml>=5.0.0
+
+# Phase 4+: LLM SDKs (uncomment when needed)
+# google-generativeai>=0.5.0
+# mistralai>=0.0.7
+# groq>=0.4.0
+# ollama>=0.1.0
+
+# Phase 6: Graph Database
+# neo4j>=5.0.0
+
+# Phase 8: RAG
+# chromadb>=0.4.0
+# sentence-transformers>=2.0.0
+
+# Phase 9: GraphRAG
+# networkx>=3.0
+
+# Phase 10: Evaluation
+# ragas>=0.1.0
