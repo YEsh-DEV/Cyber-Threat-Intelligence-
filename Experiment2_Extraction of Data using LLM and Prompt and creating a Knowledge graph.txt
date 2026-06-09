@@ -1,0 +1,213 @@
+﻿Experiment-2:Extraction of Data using LLM and Prompt and creating a Knowledge graph
+1. Aim:        1
+2. Introduction about MITRE ATT&CK        1
+3. Overall workflow        2
+4.Procedure[To do]:        2
+5. Result Tables        4
+1. Aim:
+To extract data such as Head entity, Relation, Tail entity, Time point or time interval, Source document or evidence source, Evidence sentence or paragraph, and LLM extraction confidence using a Prompt template and LLMs and creating Knowledge Graph.
+2. Introduction about MITRE ATT&CK
+MITRE ATT&CK® is a globally-accessible knowledge base of adversary tactics and techniques based on real-world observations. The ATT&CK knowledge base is used as a foundation for the development of specific threat models and methodologies in the private sector, in government, and in the cybersecurity product and service community.
+With the creation of ATT&CK, MITRE is fulfilling its mission to solve problems for a safer world — by bringing communities together to develop more effective cybersecurity. ATT&CK is open and available to any person or organisation for use at no charge. [1]
+MITRE ATT&CK is a widely used cybersecurity framework developed by MITRE to document and analyse adversary tactics, techniques, and procedures (TTPs) based on real-world cyberattacks. It helps organisations understand attacker behaviour, detect threats, assess risks, and improve defensive strategies. The framework organizes attacks into tactics (attacker goals), techniques (methods used), and procedures (specific implementations), enabling analysts to map and predict attack patterns. The survey paper reviews more than 50 research contributions that apply MITRE ATT&CK in areas such as behavioral analytics, red teaming, defensive gap assessment, and cyber threat intelligence enrichment. It also compares ATT&CK with other security frameworks like Cyber Kill Chain and STRIDE, highlighting its strengths in threat modeling and attack analysis across enterprise, mobile, and industrial control system environments. The paper further discusses challenges, research gaps, and future directions for improving cyber threat intelligence and security analytics using the ATT&CK framework.[2]
+
+
+3. Overall workflow
+  
+
+4.Procedure[To do]:
+1. Download the CTI Report dataset from the link below
+   1. https://ieee-dataport.org//open-access/cyber-threat-intelligent-cti-dataset-generated-public-security-reports-and-malware
+2. Extract the data using the Below prompt template and LLM
+Prompt template:
+You are a cybersecurity threat intelligence analyst.
+Extract CTI knowledge from the given report.
+Return only valid JSON.
+
+
+Extract:
+1. Threat actors
+2. Malware
+3. Tools
+4. Vulnerabilities
+5. ATT&CK tactics
+6. ATT&CK techniques
+7. Targets
+8. Temporal expressions
+9. Entity-relation triples
+10. Evidence sentence for each triple
+11. Confidence score from 0 to 1
+
+
+Input CTI text:
+{cti_report_chunk}
+Expected JSON output:
+{
+  "entities": [
+    {"text": "Patchwork", "type": "ThreatActor", "canonical_name": "Patchwork APT", "confidence": 0.94},
+    {"text": "PowerShell", "type": "Tool", "canonical_name": "PowerShell", "confidence": 0.91},
+    {"text": "CVE-2017-11882", "type": "Vulnerability", "canonical_name": "CVE-2017-11882", "confidence": 0.96}
+  ],
+  "relations": [
+    {
+      "head": "Patchwork",
+      "relation": "uses",
+      "tail": "PowerShell",
+      "time": "unknown",
+      "evidence": "PowerShell is a common tool for Patchwork.",
+      "confidence": 0.89
+    },
+    {
+      "head": "Patchwork",
+      "relation": "exploits",
+      "tail": "CVE-2017-11882",
+      "time": "unknown",
+      "evidence": "Patchwork typically uses CVE-2017-11882...",
+      "confidence": 0.91
+    }
+  ]
+}
+3. LLM models to use
+   1. LLM-only
+      1. Google Gemini
+      2. OpenAI GPT
+      3. Meta Llama
+      4. Mistral AI
+   2. Using RAG with the above model
+      1. Google Gemini
+      2. OpenAI GPT
+      3. Meta Llama
+      4. Mistral AI
+   3. Using GraphRAG with the above model
+      1. Google Gemini
+      2. OpenAI GPT
+      3. Meta Llama
+      4. Mistral AI
+4. Store the extracted data from LLM in Extracted_data_1.JSON
+5. Create the Knowledge graph using Neo4j from the file Extracted_data_1.JSON
+6. Faithfulness, Relevance, Hallucination Rate, and Evidence Coverage must be calculated, displayed, and recorded in the table below.
+5. Result Tables
+Method
+	LLM Models
+	Faithfulness
+	Relevance
+	Hallucination Rate
+	Evidence Coverage
+	LLM-only
+	Google Gemini
+	
+
+	
+
+	
+
+	
+
+	OpenAI GPT
+	
+
+	
+
+	
+
+	
+
+	Meta Llama
+	
+
+	
+
+	
+
+	
+
+	Mistral AI
+	
+
+	
+
+	
+
+	
+
+	RAG/Vanilla RAG
+	Google Gemini
+	
+
+	
+
+	
+
+	
+
+	OpenAI GPT
+	
+
+	
+
+	
+
+	
+
+	Meta Llama
+	
+
+	
+
+	
+
+	
+
+	Mistral AI
+	
+
+	
+
+	
+
+	
+
+	            GraphRAG
+	Google Gemini
+	
+
+	
+
+	
+
+	
+
+	OpenAI GPT
+	
+
+	
+
+	
+
+	
+
+	Meta Llama
+	
+
+	
+
+	
+
+	
+
+	Mistral AI
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+________________
+[1] https://attack.mitre.org/
+[2] Bader Al-Sada, Alireza Sadighian, and Gabriele Oligeri. 2024. MITRE ATT&CK: State of the Art and Way Forward. ACM Comput. Surv. 57, 1, Article 12 (January 2025), 37 pages. https://doi.org/10.1145/368730 Overall workflow0

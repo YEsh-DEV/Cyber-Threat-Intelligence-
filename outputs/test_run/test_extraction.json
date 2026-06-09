@@ -1,0 +1,89 @@
+{
+  "experiment_metadata": {
+    "method": "llm_only",
+    "model": "test",
+    "timestamp": "2026-06-09T20:00:00",
+    "dataset_size": 2,
+    "dev_mode": true
+  },
+  "results": [
+    {
+      "event_id": "test_001",
+      "file_source": "test_data.xml",
+      "extraction": {
+        "entities": [
+          {
+            "text": "APT28",
+            "type": "threat_actor",
+            "canonical_name": "APT28",
+            "confidence": 0.95
+          },
+          {
+            "text": "X-Agent",
+            "type": "malware",
+            "canonical_name": "X-Agent",
+            "confidence": 0.9
+          },
+          {
+            "text": "Democratic National Committee",
+            "type": "organization",
+            "canonical_name": "DNC",
+            "confidence": 0.85
+          }
+        ],
+        "relations": [
+          {
+            "head": "APT28",
+            "relation": "uses",
+            "tail": "X-Agent",
+            "time": "2016",
+            "evidence": "APT28 deployed X-Agent",
+            "confidence": 0.88
+          },
+          {
+            "head": "APT28",
+            "relation": "targets",
+            "tail": "DNC",
+            "time": "2016",
+            "evidence": "Targeted DNC networks",
+            "confidence": 0.82
+          }
+        ]
+      },
+      "processing_time_seconds": 1.5,
+      "status": "success"
+    },
+    {
+      "event_id": "test_002",
+      "file_source": "test_data.xml",
+      "extraction": {
+        "entities": [
+          {
+            "text": "192.168.1.100",
+            "type": "ip_address",
+            "canonical_name": "192.168.1.100",
+            "confidence": 0.99
+          },
+          {
+            "text": "emotet.dll",
+            "type": "malware",
+            "canonical_name": "Emotet",
+            "confidence": 0.91
+          }
+        ],
+        "relations": [
+          {
+            "head": "Emotet",
+            "relation": "communicates_with",
+            "tail": "192.168.1.100",
+            "time": null,
+            "evidence": "C2 traffic observed",
+            "confidence": 0.87
+          }
+        ]
+      },
+      "processing_time_seconds": 1.2,
+      "status": "success"
+    }
+  ]
+}
