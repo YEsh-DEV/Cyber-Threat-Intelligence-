@@ -3,8 +3,8 @@ CTI Knowledge Graph Extraction & Benchmarking Framework
 Main Entry Point
 
 Supports two modes:
-  1. Interactive Mode — User selects retrieval strategy and model
-  2. Batch Benchmark Mode — Runs full 3×4 experiment matrix
+  1. Interactive Mode -- User selects retrieval strategy and model
+  2. Batch Benchmark Mode -- Runs full 3x4 experiment matrix
 """
 
 import argparse
@@ -27,12 +27,13 @@ def setup_logging() -> None:
     )
 
 
-def interactive_mode() -> None:
+def interactive_mode(dev_mode: bool = True) -> None:
     """Run a single experiment with user-selected parameters."""
     from config import RETRIEVER_REGISTRY, MODEL_REGISTRY
+    from pipeline.cti_pipeline import CTIPipeline
 
     print("\n" + "=" * 60)
-    print("  CTI Knowledge Graph — Interactive Mode")
+    print("  CTI Knowledge Graph -- Interactive Mode")
     print("=" * 60)
 
     # Select retrieval strategy
@@ -67,17 +68,40 @@ def interactive_mode() -> None:
             pass
         print("Invalid selection. Try again.")
 
-    print(f"\n→ Running: {selected_retriever} + {selected_model}")
-    print("  (Pipeline not yet implemented — Phase 5)")
-    # TODO: Phase 5 — Instantiate and run CTIPipeline
+    print(f"\n-> Running: {selected_retriever} + {selected_model}")
+    print(f"   Dev mode: {dev_mode}")
+    print()
+
+    # Run pipeline
+    pipeline = CTIPipeline(
+        model_name=selected_model,
+        retriever_name=selected_retriever,
+        dev_mode=dev_mode,
+    )
+    output_path = pipeline.run()
+    print(f"\n-> Output saved: {output_path}")
+
+    # Ask about Neo4j loading
+    load_neo4j = input("\nLoad results into Neo4j? (y/n): ").strip().lower()
+    if load_neo4j == "y":
+        from graph.neo4j_loader import Neo4jLoader
+
+        append = input("Append to existing graph? (y/n): ").strip().lower() == "y"
+
+        with Neo4jLoader() as loader:
+            stats = loader.load_json(output_path, append=append)
+            print(f"\n  Loaded: {stats['events_created']} events, "
+                  f"{stats['entities_created']} entities, "
+                  f"{stats['relations_created']} relations")
 
 
-def batch_mode() -> None:
-    """Run the full 3×4 benchmark matrix."""
+def batch_mode(dev_mode: bool = True) -> None:
+    """Run the full 3x4 benchmark matrix."""
     from config import BENCHMARK_MODELS, BENCHMARK_RETRIEVERS
+    from pipeline.cti_pipeline import CTIPipeline
 
     print("\n" + "=" * 60)
-    print("  CTI Knowledge Graph — Batch Benchmark Mode")
+    print("  CTI Knowledge Graph -- Batch Benchmark Mode")
     print("=" * 60)
 
     total = len(BENCHMARK_RETRIEVERS) * len(BENCHMARK_MODELS)
@@ -85,10 +109,54 @@ def batch_mode() -> None:
 
     for retriever in BENCHMARK_RETRIEVERS:
         for model in BENCHMARK_MODELS:
-            print(f"  • {retriever} + {model}")
+            print(f"  - {retriever} + {model}")
 
-    print("\n  (Batch execution not yet implemented — Phase 11)")
-    # TODO: Phase 11 — Iterate and run all experiments
+    confirm = input(f"\nProceed with {total} experiments? (y/n): ").strip().lower()
+    if confirm != "y":
+        print("Cancelled.")
+        return
+
+    results = []
+    for i, retriever in enumerate(BENCHMARK_RETRIEVERS):
+        for j, model in enumerate(BENCHMARK_MODELS):
+            run_num = i * len(BENCHMARK_MODELS) + j + 1
+            print(f"\n{'='*60}")
+            print(f"  Experiment {run_num}/{total}: {retriever} + {model}")
+            print(f"{'='*60}")
+
+            try:
+                pipeline = CTIPipeline(
+                    model_name=model,
+                    retriever_name=retriever,
+                    dev_mode=dev_mode,
+                )
+                output_path = pipeline.run()
+                results.append({
+                    "retriever": retriever,
+                    "model": model,
+                    "output": output_path,
+                    "status": "success",
+                })
+                print(f"  -> Output: {output_path}")
+            except Exception as e:
+                print(f"  -> Error: {e}")
+                results.append({
+                    "retriever": retriever,
+                    "model": model,
+                    "output": None,
+                    "status": f"error: {e}",
+                })
+
+    # Summary
+    print(f"\n{'='*60}")
+    print(f"  Batch Benchmark Complete")
+    print(f"{'='*60}")
+    success = sum(1 for r in results if r["status"] == "success")
+    print(f"  {success}/{total} experiments completed successfully")
+
+    for r in results:
+        status_icon = "[OK]" if r["status"] == "success" else "[FAIL]"
+        print(f"  {status_icon} {r['retriever']} + {r['model']}: {r['status']}")
 
 
 def main() -> None:
@@ -106,24 +174,27 @@ def main() -> None:
     parser.add_argument(
         "--dev",
         action="store_true",
+        default=True,
         help="Enable development mode (limits events to MAX_EVENTS_DEV)",
+    )
+    parser.add_argument(
+        "--prod",
+        action="store_true",
+        help="Enable production mode (process all events)",
     )
 
     args = parser.parse_args()
 
     setup_logging()
     logger = logging.getLogger(__name__)
-    logger.info("CTI Framework starting in %s mode", args.mode)
 
-    if args.dev:
-        import config
-        config.DEV_MODE = True
-        logger.info("Development mode enabled (max %d events)", config.MAX_EVENTS_DEV)
+    dev_mode = not args.prod
+    logger.info("CTI Framework starting in %s mode (dev=%s)", args.mode, dev_mode)
 
     if args.mode == "interactive":
-        interactive_mode()
+        interactive_mode(dev_mode=dev_mode)
     elif args.mode == "batch":
-        batch_mode()
+        batch_mode(dev_mode=dev_mode)
 
 
 if __name__ == "__main__":

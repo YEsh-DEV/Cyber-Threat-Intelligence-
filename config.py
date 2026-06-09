@@ -35,17 +35,18 @@ CHECKPOINT_INTERVAL = 50  # Save checkpoint every N events
 # ─── Rate Limiting ───────────────────────────────────────────────────────────
 MAX_RETRIES = 3
 RETRY_BASE_DELAY = 2  # seconds (exponential backoff base)
-REQUEST_TIMEOUT = 60  # seconds
+REQUEST_TIMEOUT = 300  # seconds (generous for local Ollama models)
 
 # ─── API Keys (from .env) ────────────────────────────────────────────────────
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY", "")
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "") or os.getenv("GORQ_API_KEY", "")
 
 # ─── Neo4j Configuration (from .env) ─────────────────────────────────────────
 NEO4J_URI = os.getenv("NEO4J_URI", "bolt://localhost:7687")
 NEO4J_USERNAME = os.getenv("NEO4J_USERNAME", "neo4j")
 NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "")
+NEO4J_DATABASE = os.getenv("NEO4J_DATABASE", "neo4j")
 
 # ─── Ollama Configuration ────────────────────────────────────────────────────
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
