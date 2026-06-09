@@ -1,0 +1,1367 @@
+<CTIMinerDataset>
+  <Event>
+    <id>2</id>
+    <date>2008-10-01</date>
+    <info>Fritz_HOW-CHINA-WILL-USE-CYBER-WARFARE(Oct-01-08).pdf</info>
+    <Attribute>
+      <item>
+        <category>Other</category>
+        <comment/>
+        <value>Fritz_HOW-CHINA-WILL-USE-CYBER-WARFARE(Oct-01-08).pdf</value>
+        <type>comment</type>
+        <id>29</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>politics.slashdot.org</value>
+        <type>url</type>
+        <id>30</id>
+      </item>
+      <item>
+        <category>External analysis</category>
+        <comment/>
+        <value>China-Military-Power-final.pdf</value>
+        <type>filename</type>
+        <id>31</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>archive.newsmax.com</value>
+        <type>url</type>
+        <id>32</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.sfgate.com</value>
+        <type>url</type>
+        <id>33</id>
+      </item>
+      <item>
+        <category>External analysis</category>
+        <comment/>
+        <value>unrestricted.pdf</value>
+        <type>filename</type>
+        <id>34</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.marketwatch.com</value>
+        <type>url</type>
+        <id>35</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.amnestyusa.org</value>
+        <type>url</type>
+        <id>36</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.economist.com</value>
+        <type>url</type>
+        <id>37</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>asia.cnet.com</value>
+        <type>url</type>
+        <id>38</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.ftc.gov</value>
+        <type>url</type>
+        <id>39</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.amnesty.org</value>
+        <type>url</type>
+        <id>40</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.csis.org</value>
+        <type>url</type>
+        <id>41</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>hacker.ge</value>
+        <type>url</type>
+        <id>42</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>technology.guardian.co.uk</value>
+        <type>url</type>
+        <id>43</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.iht.com</value>
+        <type>url</type>
+        <id>44</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>slashdot.org</value>
+        <type>url</type>
+        <id>45</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.computerworld.com</value>
+        <type>url</type>
+        <id>46</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.rand.org</value>
+        <type>url</type>
+        <id>47</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.spacewar.com</value>
+        <type>url</type>
+        <id>48</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.rsf.org</value>
+        <type>url</type>
+        <id>49</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>Scientology.org</value>
+        <type>url</type>
+        <id>50</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.internetevolution.com</value>
+        <type>url</type>
+        <id>51</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.cfr.org</value>
+        <type>url</type>
+        <id>52</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.scmagazineus.com</value>
+        <type>url</type>
+        <id>53</id>
+      </item>
+      <item>
+        <category>External analysis</category>
+        <comment/>
+        <value>BH-Fed-06-Maynor-Graham-up.pdf</value>
+        <type>filename</type>
+        <id>54</id>
+      </item>
+      <item>
+        <category>External analysis</category>
+        <comment/>
+        <value>08_05_20_trans.pdf</value>
+        <type>filename</type>
+        <id>55</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.breitbart.com</value>
+        <type>url</type>
+        <id>56</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.treehugger.com</value>
+        <type>url</type>
+        <id>57</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.dallasnews.com</value>
+        <type>url</type>
+        <id>58</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.foreignaffairs.org</value>
+        <type>url</type>
+        <id>59</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.postimees.ee</value>
+        <type>url</type>
+        <id>60</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.physorg.com</value>
+        <type>url</type>
+        <id>61</id>
+      </item>
+      <item>
+        <category>External analysis</category>
+        <comment/>
+        <value>060626_asia_balance_powers.pdf</value>
+        <type>filename</type>
+        <id>62</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>fas.org</value>
+        <type>url</type>
+        <id>63</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.greenleft.org.au</value>
+        <type>url</type>
+        <id>64</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.usatoday.com</value>
+        <type>url</type>
+        <id>65</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.voipwiki.com</value>
+        <type>url</type>
+        <id>66</id>
+      </item>
+      <item>
+        <category>External analysis</category>
+        <comment/>
+        <value>info_ops_roadmap.pdf</value>
+        <type>filename</type>
+        <id>67</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.itnews.com.au</value>
+        <type>url</type>
+        <id>68</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>sinodefence.com</value>
+        <type>url</type>
+        <id>69</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.techweb.com</value>
+        <type>url</type>
+        <id>70</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.globalsecurity.org</value>
+        <type>url</type>
+        <id>71</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.uscc.gov</value>
+        <type>url</type>
+        <id>72</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>sbdcnet.utsa.edu</value>
+        <type>url</type>
+        <id>73</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.independent.co.uk</value>
+        <type>url</type>
+        <id>74</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.asiamedia.ucla.edu</value>
+        <type>url</type>
+        <id>75</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.voanews.com</value>
+        <type>url</type>
+        <id>76</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.upiasiaonline.com</value>
+        <type>url</type>
+        <id>77</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>article.pl</value>
+        <type>url</type>
+        <id>78</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.techbriefs.com</value>
+        <type>url</type>
+        <id>79</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.landfield.com</value>
+        <type>url</type>
+        <id>80</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.ibls.com</value>
+        <type>url</type>
+        <id>81</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.stsc.hill.af.mil</value>
+        <type>url</type>
+        <id>82</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>sci.com</value>
+        <type>url</type>
+        <id>83</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.tzengs.com</value>
+        <type>url</type>
+        <id>84</id>
+      </item>
+      <item>
+        <category>External analysis</category>
+        <comment/>
+        <value>MR580.pdf</value>
+        <type>filename</type>
+        <id>85</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.gcn.com</value>
+        <type>url</type>
+        <id>86</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.chinanews.cn</value>
+        <type>url</type>
+        <id>87</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.people.fas.harvard.edu</value>
+        <type>url</type>
+        <id>88</id>
+      </item>
+      <item>
+        <category>External analysis</category>
+        <comment/>
+        <value>_and_Harmonious_World.pdf</value>
+        <type>filename</type>
+        <id>89</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.notebookreview.com</value>
+        <type>url</type>
+        <id>90</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>belfercenter.ksg.harvard.edu</value>
+        <type>url</type>
+        <id>91</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>Chinanews.cn</value>
+        <type>url</type>
+        <id>92</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>cryptome.org</value>
+        <type>url</type>
+        <id>93</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.thestandard.com</value>
+        <type>url</type>
+        <id>94</id>
+      </item>
+      <item>
+        <category>External analysis</category>
+        <comment/>
+        <value>Alberts_NCW.pdf</value>
+        <type>filename</type>
+        <id>95</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>loosewire.typepad.com</value>
+        <type>url</type>
+        <id>96</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.guardian.co.uk</value>
+        <type>url</type>
+        <id>97</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.australianit.news.com.au</value>
+        <type>url</type>
+        <id>98</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>qwika.com</value>
+        <type>url</type>
+        <id>99</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.sinodefence.com</value>
+        <type>url</type>
+        <id>100</id>
+      </item>
+      <item>
+        <category>External analysis</category>
+        <comment/>
+        <value>gas_stations.pdf</value>
+        <type>filename</type>
+        <id>101</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.theage.com.au</value>
+        <type>url</type>
+        <id>102</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.wftv.com</value>
+        <type>url</type>
+        <id>103</id>
+      </item>
+      <item>
+        <category>External analysis</category>
+        <comment/>
+        <value>friedman.pdf</value>
+        <type>filename</type>
+        <id>104</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.nasa.gov</value>
+        <type>url</type>
+        <id>105</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.jamestown.org</value>
+        <type>url</type>
+        <id>106</id>
+      </item>
+      <item>
+        <category>External analysis</category>
+        <comment/>
+        <value>p533.pdf</value>
+        <type>filename</type>
+        <id>107</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>papers.ssrn.com</value>
+        <type>url</type>
+        <id>108</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.heritage.org</value>
+        <type>url</type>
+        <id>109</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.gao.gov</value>
+        <type>url</type>
+        <id>110</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>irchelp.org</value>
+        <type>url</type>
+        <id>111</id>
+      </item>
+      <item>
+        <category>External analysis</category>
+        <comment/>
+        <value>shashoujian.pdf</value>
+        <type>filename</type>
+        <id>112</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.claws-and-paws.com</value>
+        <type>url</type>
+        <id>113</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.globalresearch.ca</value>
+        <type>url</type>
+        <id>114</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.tiraspoltimes.com</value>
+        <type>url</type>
+        <id>115</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>abcnews.go.com</value>
+        <type>url</type>
+        <id>116</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.koreatimes.co.kr</value>
+        <type>url</type>
+        <id>117</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>lrtranslations.blogspot.com</value>
+        <type>url</type>
+        <id>118</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.news.com.au</value>
+        <type>url</type>
+        <id>119</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>chinaview.wordpress.com</value>
+        <type>url</type>
+        <id>120</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>opennet.net</value>
+        <type>url</type>
+        <id>121</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>ity.org</value>
+        <type>url</type>
+        <id>122</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.textfiles.com</value>
+        <type>url</type>
+        <id>123</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.networkworld.com</value>
+        <type>url</type>
+        <id>124</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>en.rian.ru</value>
+        <type>url</type>
+        <id>125</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.csmonitor.com</value>
+        <type>url</type>
+        <id>126</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.upi.com</value>
+        <type>url</type>
+        <id>127</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>yro.slashdot.org</value>
+        <type>url</type>
+        <id>128</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.robson.org</value>
+        <type>url</type>
+        <id>129</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>web.archive.org</value>
+        <type>url</type>
+        <id>130</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.briancuban.com</value>
+        <type>url</type>
+        <id>131</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.appleinsider.com</value>
+        <type>url</type>
+        <id>132</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.sciencedaily.com</value>
+        <type>url</type>
+        <id>133</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.dni.gov</value>
+        <type>url</type>
+        <id>134</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.radioaustralia.net.au</value>
+        <type>url</type>
+        <id>135</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>co.uk</value>
+        <type>url</type>
+        <id>136</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>technology.timesonline.co.uk</value>
+        <type>url</type>
+        <id>137</id>
+      </item>
+      <item>
+        <category>External analysis</category>
+        <comment/>
+        <value>d011073t.pdf</value>
+        <type>filename</type>
+        <id>138</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.defenselink.mil</value>
+        <type>url</type>
+        <id>139</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>code.red</value>
+        <type>url</type>
+        <id>140</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>programs.ssrc.org</value>
+        <type>url</type>
+        <id>141</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.chicagotribune.com</value>
+        <type>url</type>
+        <id>142</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.macworld.com</value>
+        <type>url</type>
+        <id>143</id>
+      </item>
+      <item>
+        <category>External analysis</category>
+        <comment/>
+        <value>Alberts_IAT.pdf</value>
+        <type>filename</type>
+        <id>144</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>business.smh.com.au</value>
+        <type>url</type>
+        <id>145</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.terrorism.com</value>
+        <type>url</type>
+        <id>146</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.strategycenter.net</value>
+        <type>url</type>
+        <id>147</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.epl.ee</value>
+        <type>url</type>
+        <id>148</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>venturebeat.com</value>
+        <type>url</type>
+        <id>149</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.infowar-monitor.net</value>
+        <type>url</type>
+        <id>150</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>Digg.com</value>
+        <type>url</type>
+        <id>151</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.streem.com.au</value>
+        <type>url</type>
+        <id>152</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.defensetech.org</value>
+        <type>url</type>
+        <id>153</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.pbs.org</value>
+        <type>url</type>
+        <id>154</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.engadget.com</value>
+        <type>url</type>
+        <id>155</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.zone-h.org</value>
+        <type>url</type>
+        <id>156</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.totse.com</value>
+        <type>url</type>
+        <id>157</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.informaworld.com</value>
+        <type>url</type>
+        <id>158</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>news.cnet.com</value>
+        <type>url</type>
+        <id>159</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.infoworld.com</value>
+        <type>url</type>
+        <id>160</id>
+      </item>
+      <item>
+        <category>External analysis</category>
+        <comment/>
+        <value>chinanavy2007.pdf</value>
+        <type>filename</type>
+        <id>161</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.pcworld.com</value>
+        <type>url</type>
+        <id>162</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>warez.ge</value>
+        <type>url</type>
+        <id>163</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.sunstar.com.ph</value>
+        <type>url</type>
+        <id>164</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>searchsecurity.techtarget.com</value>
+        <type>url</type>
+        <id>165</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.newsweek.com</value>
+        <type>url</type>
+        <id>166</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>news.bbc.co</value>
+        <type>url</type>
+        <id>167</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>StopGeorgia.ru</value>
+        <type>url</type>
+        <id>168</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.howstuffworks.com</value>
+        <type>url</type>
+        <id>169</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.atimes.com</value>
+        <type>url</type>
+        <id>170</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.blackhat.com</value>
+        <type>url</type>
+        <id>171</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>zoushoku.narc.affrc.go.jp</value>
+        <type>url</type>
+        <id>172</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.dodccrp.org</value>
+        <type>url</type>
+        <id>173</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.abc.net.au</value>
+        <type>url</type>
+        <id>174</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.wsws.org</value>
+        <type>url</type>
+        <id>175</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.aol.com.au</value>
+        <type>url</type>
+        <id>176</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.sbcc-chamber.com</value>
+        <type>url</type>
+        <id>177</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.airforcetimes.com</value>
+        <type>url</type>
+        <id>178</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>towards.one</value>
+        <type>url</type>
+        <id>179</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.allbusiness.com</value>
+        <type>url</type>
+        <id>180</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.popularmechanics.com</value>
+        <type>url</type>
+        <id>181</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>english.people.com.cn</value>
+        <type>url</type>
+        <id>182</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>wikipedia.qwika.com</value>
+        <type>url</type>
+        <id>183</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.fas.org</value>
+        <type>url</type>
+        <id>184</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.nottingham.ac.uk</value>
+        <type>url</type>
+        <id>185</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.StategicStudiesInstitute.army.mil</value>
+        <type>url</type>
+        <id>186</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>library.nmsu.edu</value>
+        <type>url</type>
+        <id>187</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>news.com.com</value>
+        <type>url</type>
+        <id>188</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.clevelandfed.org</value>
+        <type>url</type>
+        <id>189</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.comw.org</value>
+        <type>url</type>
+        <id>190</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.sciam.com</value>
+        <type>url</type>
+        <id>191</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.gwu.edu</value>
+        <type>url</type>
+        <id>192</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>info.anu.edu.au</value>
+        <type>url</type>
+        <id>193</id>
+      </item>
+    </Attribute>
+  </Event>
+  <Event>
+    <id>1</id>
+    <date>2008-11-11</date>
+    <info>556_10535_798405_Annex87_CyberAttacks.pdf</info>
+    <Attribute>
+      <item>
+        <category>Other</category>
+        <comment/>
+        <value>556_10535_798405_Annex87_CyberAttacks.pdf</value>
+        <type>comment</type>
+        <id>1</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.georgiaupdate.gov.ge</value>
+        <type>url</type>
+        <id>2</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>79.135.167.22</value>
+        <type>ip-src</type>
+        <id>3</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>62.168.168.9</value>
+        <type>ip-src</type>
+        <id>4</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>president.gov.ge</value>
+        <type>url</type>
+        <id>5</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>stopgeorgia.info</value>
+        <type>url</type>
+        <id>6</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>kavkaz.org</value>
+        <type>url</type>
+        <id>7</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.parliament.ge</value>
+        <type>url</type>
+        <id>8</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>thecanadianmeds.com</value>
+        <type>url</type>
+        <id>9</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.president.gov.ge</value>
+        <type>url</type>
+        <id>10</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>cybersecurity.ru</value>
+        <type>url</type>
+        <id>11</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.apsny.ge</value>
+        <type>url</type>
+        <id>12</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>Stopgeorgia.ru</value>
+        <type>url</type>
+        <id>13</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.saesa.gov.ge</value>
+        <type>url</type>
+        <id>14</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>79.135.167.49</value>
+        <type>ip-src</type>
+        <id>15</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>Shadowserver.org</value>
+        <type>url</type>
+        <id>16</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>Xaker.ru</value>
+        <type>url</type>
+        <id>17</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>mfa.gov.ge</value>
+        <type>url</type>
+        <id>18</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>www.skandaly.ru</value>
+        <type>url</type>
+        <id>19</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>hacker.ru</value>
+        <type>url</type>
+        <id>20</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>Skandaly.ru</value>
+        <type>url</type>
+        <id>21</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>googlecomaolcomyahoocomaboutcom.net</value>
+        <type>url</type>
+        <id>22</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>Bryansk.ru</value>
+        <type>url</type>
+        <id>23</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>mod.gov.ge</value>
+        <type>url</type>
+        <id>24</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>chechenpress.com</value>
+        <type>url</type>
+        <id>25</id>
+      </item>
+      <item>
+        <category>External analysis</category>
+        <comment/>
+        <value>name.avi.exe</value>
+        <type>filename</type>
+        <id>26</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>kavkazcenter.com</value>
+        <type>url</type>
+        <id>27</id>
+      </item>
+      <item>
+        <category>Network activity</category>
+        <comment/>
+        <value>Ripe.net</value>
+        <type>url</type>
+        <id>28</id>
+      </item>
+    </Attribute>
+  </Event>
+</CTIMinerDataset>
