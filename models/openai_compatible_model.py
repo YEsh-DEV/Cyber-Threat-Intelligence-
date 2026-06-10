@@ -74,6 +74,14 @@ class OpenAICompatibleLLM(BaseLLM):
         if not self.api_key:
             raise ValueError(f"{self.__class__.__name__} API key is not configured.")
 
+        from preprocessing.cache_manager import CacheManager
+        
+        # Check LLM Cache first
+        cached_response = CacheManager.get_llm_cache(self.model_id, system_prompt, user_prompt)
+        if cached_response is not None:
+            logger.info("Loaded response from LLM cache for model %s", self.model_id)
+            return cached_response
+
         payload = {
             "model": self.model_id,
             "messages": [
@@ -143,6 +151,8 @@ class OpenAICompatibleLLM(BaseLLM):
 
                     parsed = self._extract_json(content_text)
                     if parsed is not None:
+                        # Save successful parse to cache
+                        CacheManager.set_llm_cache(self.model_id, system_prompt, user_prompt, parsed)
                         return parsed
 
                     last_error = ValueError(

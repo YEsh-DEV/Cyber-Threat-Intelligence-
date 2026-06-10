@@ -26,6 +26,7 @@ class ExperimentMetadata(BaseModel):
 class EventResult(BaseModel):
     """Result for a single processed event."""
 
+    global_id: str = Field(..., description="Globally unique identifier (filename_eventid)")
     event_id: str = Field(..., description="Original event ID from XML")
     file_source: str = Field(..., description="Source XML filename")
     extraction: dict = Field(default_factory=dict, description="Validated extraction data")

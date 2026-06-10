@@ -3,24 +3,34 @@
     "evaluator_model": "llama_groq",
     "experiment_model": "test",
     "experiment_method": "llm_only",
-    "evaluated_events": 1
+    "evaluated_events": 0
   },
-  "average_scores": {
-    "faithfulness": 0.8,
-    "relevance": 0.9,
-    "evidence_coverage": 0.7,
-    "hallucination_rate": 0.2
-  },
-  "detailed_scores": [
-    {
-      "event_id": "2",
-      "scores": {
-        "faithfulness": 0.8,
-        "relevance": 0.9,
-        "evidence_coverage": 0.7,
-        "hallucination_rate": 0.2,
-        "reasoning": "The extraction is mostly faithful to the source text, with entities 'China' and 'Fritz' accurately identified. However, the relation 'wrote' is not explicitly stated in the source text, but can be inferred. The extraction misses some important indicators such as the date '2008-10-01' and the URLs listed in the source text. There are no hallucinations in the extraction."
-      }
+  "statistics": {
+    "evaluated_count": 0,
+    "averages": {
+      "faithfulness": 0.0,
+      "relevance": 0.0,
+      "evidence_coverage": 0.0,
+      "hallucination_rate": 0.0
+    },
+    "std_devs": {
+      "faithfulness": 0.0,
+      "relevance": 0.0,
+      "evidence_coverage": 0.0,
+      "hallucination_rate": 0.0
+    },
+    "mins": {
+      "faithfulness": 0.0,
+      "relevance": 0.0,
+      "evidence_coverage": 0.0,
+      "hallucination_rate": 0.0
+    },
+    "maxs": {
+      "faithfulness": 0.0,
+      "relevance": 0.0,
+      "evidence_coverage": 0.0,
+      "hallucination_rate": 0.0
     }
-  ]
+  },
+  "detailed_scores": []
 }

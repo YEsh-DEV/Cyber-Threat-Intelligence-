@@ -149,6 +149,10 @@ class CTIXMLParser:
         event_id = event_elem.findtext("id", "").strip()
         date = event_elem.findtext("date", "").strip()
         info = event_elem.findtext("info", "").strip()
+        
+        # Clean filename for cleaner ID (e.g., CTIMiner_APT_1.xml -> CTIMiner_APT_1)
+        clean_filename = filename.replace(".xml", "")
+        global_id = f"{clean_filename}_{event_id}"
 
         # Parse all attribute items
         attributes = self._parse_attributes(event_elem)
@@ -163,6 +167,7 @@ class CTIXMLParser:
         )
 
         return {
+            "global_id": global_id,
             "event_id": event_id,
             "file_source": filename,
             "date": date,

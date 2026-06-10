@@ -55,6 +55,14 @@ class GeminiLLM(BaseLLM):
         if not self.api_key:
             raise ValueError("Gemini API key is not configured in environment or config.")
 
+        from preprocessing.cache_manager import CacheManager
+        
+        # Check LLM Cache first
+        cached_response = CacheManager.get_llm_cache(self.model_id, system_prompt, user_prompt)
+        if cached_response is not None:
+            logger.info("Loaded response from LLM cache for model %s", self.model_id)
+            return cached_response
+
         payload = {
             "contents": [
                 {
@@ -104,6 +112,8 @@ class GeminiLLM(BaseLLM):
 
                     parsed = self._extract_json(content_text)
                     if parsed is not None:
+                        # Save successful parse to cache
+                        CacheManager.set_llm_cache(self.model_id, system_prompt, user_prompt, parsed)
                         # Log token usage if available
                         usage = result.get("usageMetadata", {})
                         if usage:

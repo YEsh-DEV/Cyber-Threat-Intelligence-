@@ -32,10 +32,19 @@ class VanillaRAGRetriever(BaseRetriever):
         logger.info("Initializing vector store index...")
         self.vector_store.initialize()
 
-    def get_context(self, query_text: str) -> List[str]:
+    def get_context(self, query_text: str, global_id: Optional[str] = None) -> List[str]:
         """
         Retrieve relevant MITRE ATT&CK passages for the cybersecurity narrative.
         """
+        from preprocessing.cache_manager import CacheManager
+        
+        # Check cache first
+        if global_id:
+            cached_context = CacheManager.get_retrieval_cache(self.name, global_id)
+            if cached_context is not None:
+                logger.info("Loaded retrieved context from cache for %s", global_id)
+                return cached_context
+
         logger.info("Retrieving ATT&CK context for narrative: %s...", query_text[:60].replace("\n", " "))
         
         try:
@@ -45,6 +54,10 @@ class VanillaRAGRetriever(BaseRetriever):
             for i, (doc, score) in enumerate(hits, 1):
                 logger.debug("Hit %d: %s (score=%.3f)", i, doc["name"], score)
                 context_passages.append(doc["text"])
+                
+            # Save to cache
+            if global_id:
+                CacheManager.set_retrieval_cache(self.name, global_id, context_passages)
                 
             return context_passages
         except Exception as e:

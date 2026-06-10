@@ -126,6 +126,14 @@ class OllamaLLM(BaseLLM):
             ConnectionError: If the Ollama server is unreachable.
             TimeoutError: If the request exceeds the timeout limit.
         """
+        from preprocessing.cache_manager import CacheManager
+        
+        # Check LLM Cache first
+        cached_response = CacheManager.get_llm_cache(self.model_id, system_prompt, user_prompt)
+        if cached_response is not None:
+            logger.info("Loaded response from LLM cache for model %s", self.model_id)
+            return cached_response
+
         last_error = None
 
         for attempt in range(1, self.max_retries + 1):
@@ -145,6 +153,8 @@ class OllamaLLM(BaseLLM):
 
                 if parsed is not None:
                     logger.debug("Successfully parsed JSON on attempt %d", attempt)
+                    # Save successful parse to cache
+                    CacheManager.set_llm_cache(self.model_id, system_prompt, user_prompt, parsed)
                     return parsed
 
                 # JSON extraction failed — will retry

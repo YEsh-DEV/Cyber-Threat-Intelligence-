@@ -155,7 +155,7 @@ def load_cached_events(force_rebuild: bool = False) -> List[Dict]:
 
 def get_narrative_lookup(force_rebuild: bool = False) -> Dict[str, str]:
     """
-    Get a dictionary mapping event_id → narrative text.
+    Get a dictionary mapping global_id → narrative text.
 
     Used by the evaluator to look up source narratives without re-parsing XML.
 
@@ -163,10 +163,10 @@ def get_narrative_lookup(force_rebuild: bool = False) -> Dict[str, str]:
         force_rebuild: If True, force rebuilding the cache.
 
     Returns:
-        Dictionary of {event_id: narrative_text}.
+        Dictionary of {global_id: narrative_text}.
     """
     events = load_cached_events(force_rebuild=force_rebuild)
-    return {e["event_id"]: e["narrative"] for e in events}
+    return {e.get("global_id", e["event_id"]): e["narrative"] for e in events}
 
 
 def preprocess_stix() -> None:
@@ -226,6 +226,36 @@ def preprocess_all(force: bool = False) -> Dict:
     logger.info("=" * 60)
 
     return summary
+
+
+def clear_all_caches() -> None:
+    """
+    Deep clean: remove all cache directories (llm, retrieval, chroma_db, parsed XML).
+    """
+    import shutil
+    from config import CACHE_DIR
+    
+    logger.info("=" * 60)
+    logger.info("  DEEP CLEANING CACHES")
+    logger.info("=" * 60)
+
+    if CACHE_DIR.exists():
+        for item in CACHE_DIR.iterdir():
+            if item.name == ".gitkeep":
+                continue
+            
+            try:
+                if item.is_dir():
+                    shutil.rmtree(item)
+                    logger.info("Deleted directory: %s", item.name)
+                else:
+                    item.unlink()
+                    logger.info("Deleted file: %s", item.name)
+            except Exception as e:
+                logger.error("Failed to delete %s: %s", item.name, e)
+                
+    logger.info("Deep clean complete.")
+    logger.info("=" * 60)
 
 
 # ─── CLI Entry Point ─────────────────────────────────────────────────────────

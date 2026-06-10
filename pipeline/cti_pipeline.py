@@ -129,20 +129,21 @@ class CTIPipeline:
         for i, event in enumerate(all_events[resume_index:], start=resume_index):
             event_start = time.time()
             event_id = event["event_id"]
+            global_id = event["global_id"]
             file_source = event["file_source"]
 
             logger.info(
-                "Processing event %d/%d (ID=%s from %s)",
+                "Processing event %d/%d (Global ID=%s)",
                 i + 1,
                 len(all_events),
-                event_id,
-                file_source,
+                global_id,
             )
 
             try:
                 # Step 1: Get retrieval context (tracked timing)
                 retriever_start = time.time()
-                context = self.retriever.get_context(event["narrative"])
+                # Pass global_id to retriever for caching support
+                context = self.retriever.get_context(event["narrative"], global_id=global_id)
                 retriever_latency = time.time() - retriever_start
 
                 # Step 2: Build the full prompt
@@ -161,6 +162,7 @@ class CTIPipeline:
                 processing_time = time.time() - event_start
 
                 result = EventResult(
+                    global_id=global_id,
                     event_id=event_id,
                     file_source=file_source,
                     extraction=extraction_dict,
@@ -175,6 +177,7 @@ class CTIPipeline:
                 logger.error("Error processing event %s: %s", event_id, e)
 
                 result = EventResult(
+                    global_id=global_id,
                     event_id=event_id,
                     file_source=file_source,
                     extraction={},

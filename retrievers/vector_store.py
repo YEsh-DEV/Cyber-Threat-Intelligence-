@@ -2,31 +2,29 @@
 Vector Store for MITRE ATT&CK Knowledge Base
 
 Downloads the STIX 2.0 representation of MITRE ATT&CK, parses techniques,
-software, and groups, embeds them using a local HuggingFace model, and performs
-NumPy-based cosine similarity search.
+software, and groups, and loads them into a persistent ChromaDB instance
+using local HuggingFace embeddings.
 """
 
 import json
 import logging
-import os
 import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-import numpy as np
+import chromadb
+from chromadb.utils import embedding_functions
 import requests
-import torch
-import torch.nn.functional as F
-from transformers import AutoModel, AutoTokenizer
 
 logger = logging.getLogger(__name__)
 
 
 class VectorStore:
-    """Lightweight vector store using local embeddings and NumPy cosine similarity."""
+    """Persistent vector store using ChromaDB and local embeddings."""
 
     MITRE_URL = "https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json"
     MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+    COLLECTION_NAME = "mitre_attack"
 
     def __init__(
         self,
@@ -36,31 +34,46 @@ class VectorStore:
     ) -> None:
         from config import PROJECT_ROOT
 
-        self.data_dir = data_dir or (PROJECT_ROOT / "data")
+        self.data_dir = data_dir or (PROJECT_ROOT / "cache")
         self.data_dir.mkdir(parents=True, exist_ok=True)
 
         self.stix_path = self.data_dir / "enterprise-attack.json"
-        self.index_path = self.data_dir / "vector_index.npz"
+        
+        # New ChromaDB persistence directory
+        self.chroma_dir = self.data_dir / "chroma_db"
+        
         self.embedding_model = embedding_model
         self.top_k = top_k
 
-        # Document and embedding lists
-        self.documents: List[Dict[str, Any]] = []
-        self.embeddings: Optional[np.ndarray] = None
-
-        # Lazy load tokenizer and model
-        self._tokenizer = None
-        self._model = None
+        # Initialize Chroma client
+        self.client = chromadb.PersistentClient(path=str(self.chroma_dir))
+        
+        # Initialize default embedding function (uses local ONNX runtime under the hood by default in Chroma)
+        # We specify the model to ensure parity with the previous implementation
+        self.embedding_fn = embedding_functions.SentenceTransformerEmbeddingFunction(
+            model_name=self.embedding_model
+        )
+        
+        self.collection = None
 
     def initialize(self) -> None:
-        """Initialize the vector store: download, parse, and embed if cache not present."""
-        if self.index_path.exists():
-            self.load_index()
-        else:
-            logger.info("Vector index not found. Initializing database...")
+        """Initialize the vector store: create collection, and ingest if empty."""
+        
+        # Get or create collection
+        self.collection = self.client.get_or_create_collection(
+            name=self.COLLECTION_NAME,
+            embedding_function=self.embedding_fn,
+            metadata={"description": "MITRE ATT&CK Knowledge Base"}
+        )
+
+        # Check if we need to ingest data
+        if self.collection.count() == 0:
+            logger.info("Chroma collection is empty. Initializing database...")
             self.download_stix()
-            self.parse_stix()
-            self.build_index()
+            docs = self.parse_stix()
+            self.build_index(docs)
+        else:
+            logger.info("Chroma DB loaded from cache. Index contains %d documents.", self.collection.count())
 
     def download_stix(self) -> None:
         """Download the enterprise attack STIX 2.0 dataset from MITRE."""
@@ -90,8 +103,8 @@ class VectorStore:
             logger.error("Failed to download MITRE ATT&CK dataset: %s", e)
             raise ConnectionError(f"Could not fetch MITRE ATT&CK knowledge base: {e}") from e
 
-    def parse_stix(self) -> None:
-        """Parse the STIX JSON file and extract techniques, malware, tools, and groups."""
+    def parse_stix(self) -> List[Dict[str, Any]]:
+        """Parse the STIX JSON file and extract objects."""
         logger.info("Parsing STIX dataset...")
         with open(self.stix_path, "r", encoding="utf-8") as f:
             bundle = json.load(f)
@@ -148,127 +161,82 @@ class VectorStore:
                 "text": text_snippet,
             })
 
-        self.documents = parsed_docs
-        logger.info("Extracted %d objects from STIX bundle.", len(self.documents))
+        logger.info("Extracted %d objects from STIX bundle.", len(parsed_docs))
+        return parsed_docs
 
-    def _get_model(self) -> Tuple[AutoTokenizer, AutoModel]:
-        """Lazy loader for HuggingFace embedding model and tokenizer."""
-        if self._tokenizer is None or self._model is None:
-            logger.info("Loading embedding model '%s'...", self.embedding_model)
-            # Handle SSL warnings/errors for models if corporate network intercepts TLS
-            # We trust HuggingFace hub cached download or try system certs
-            self._tokenizer = AutoTokenizer.from_pretrained(self.embedding_model)
-            self._model = AutoModel.from_pretrained(self.embedding_model)
-            # Run model on CPU
-            self._model.eval()
+    def build_index(self, documents: List[Dict[str, Any]]) -> None:
+        """Insert documents into ChromaDB collection."""
+        if not documents:
+            raise ValueError("No documents to index.")
 
-        return self._tokenizer, self._model
+        logger.info("Ingesting %d ATT&CK objects into ChromaDB. This may take a moment...", len(documents))
 
-    def _mean_pooling(self, model_output: Any, attention_mask: torch.Tensor) -> torch.Tensor:
-        """Mean Pooling - Take attention mask into account for correct averaging."""
-        token_embeddings = model_output[0]  # First element contains all token embeddings
-        input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
-        sum_embeddings = torch.sum(token_embeddings * input_mask_expanded, 1)
-        sum_mask = torch.clamp(input_mask_expanded.sum(1), min=1e-9)
-        return sum_embeddings / sum_mask
+        ids = [doc["id"] for doc in documents]
+        texts = [doc["text"] for doc in documents]
+        metadatas = [
+            {
+                "external_id": doc["external_id"],
+                "name": doc["name"],
+                "type": doc["type"],
+            }
+            for doc in documents
+        ]
 
-    def get_embeddings(self, texts: List[str]) -> np.ndarray:
-        """
-        Generate L2-normalized embeddings for a list of texts using local PyTorch.
-        """
-        tokenizer, model = self._get_model()
-
-        # Tokenize inputs
-        encoded_input = tokenizer(
-            texts,
-            padding=True,
-            truncation=True,
-            max_length=512,
-            return_tensors="pt"
-        )
-
-        # Compute token embeddings
-        with torch.no_grad():
-            model_output = model(**encoded_input)
-
-        # Perform pooling and normalize
-        sentence_embeddings = self._mean_pooling(model_output, encoded_input["attention_mask"])
-        sentence_embeddings = F.normalize(sentence_embeddings, p=2, dim=1)
-
-        return sentence_embeddings.cpu().numpy()
-
-    def build_index(self) -> None:
-        """Generate embeddings for all parsed documents and save to cache file."""
-        if not self.documents:
-            raise ValueError("No documents to index. Run parse_stix() first.")
-
-        logger.info("Generating embeddings for %d ATT&CK objects. This may take a moment...", len(self.documents))
-        texts = [doc["text"] for doc in self.documents]
-
-        # Process in batches to save memory
+        # Chroma handles batching internally, but we'll do it explicitly for progress logging
         batch_size = 128
-        embeddings_list = []
-
         start_time = time.time()
-        for i in range(0, len(texts), batch_size):
+        
+        for i in range(0, len(ids), batch_size):
+            batch_ids = ids[i : i + batch_size]
             batch_texts = texts[i : i + batch_size]
-            logger.info("Embedding batch %d/%d...", (i // batch_size) + 1, (len(texts) // batch_size) + 1)
-            batch_embeds = self.get_embeddings(batch_texts)
-            embeddings_list.append(batch_embeds)
+            batch_metadatas = metadatas[i : i + batch_size]
+            
+            logger.info("Ingesting batch %d/%d...", (i // batch_size) + 1, (len(ids) // batch_size) + 1)
+            
+            self.collection.add(
+                ids=batch_ids,
+                documents=batch_texts,
+                metadatas=batch_metadatas
+            )
 
-        self.embeddings = np.vstack(embeddings_list)
         elapsed = time.time() - start_time
-        logger.info("Generated embeddings in %.1fs", elapsed)
-
-        # Save index file
-        self.save_index()
-
-    def save_index(self) -> None:
-        """Save documents and embedding matrix to npz file."""
-        if self.embeddings is None:
-            return
-
-        # Convert list of dicts to JSON string to save inside NPZ
-        docs_json = json.dumps(self.documents, ensure_ascii=False)
-
-        np.savez_compressed(
-            self.index_path,
-            embeddings=self.embeddings,
-            documents=np.array([docs_json], dtype=object)
-        )
-        logger.info("Saved vector index to %s", self.index_path)
-
-    def load_index(self) -> None:
-        """Load documents and embedding matrix from cached npz file."""
-        logger.info("Loading vector index from cache: %s", self.index_path)
-        data = np.load(self.index_path, allow_pickle=True)
-        self.embeddings = data["embeddings"]
-        docs_json = str(data["documents"][0])
-        self.documents = json.loads(docs_json)
-        logger.info("Loaded %d documents from index.", len(self.documents))
+        logger.info("Ingested documents into ChromaDB in %.1fs", elapsed)
 
     def search(self, query: str, top_k: Optional[int] = None) -> List[Tuple[Dict[str, Any], float]]:
         """
-        Perform cosine similarity search for the query against the document database.
+        Perform semantic search for the query using ChromaDB.
 
         Returns:
-            List of (document, similarity_score) sorted by descending similarity.
+            List of (document_dict, distance_score) sorted by closest distance.
         """
-        if self.embeddings is None:
+        if self.collection is None:
             raise ValueError("Vector store not initialized. Call initialize() first.")
 
         k = top_k or self.top_k
-        query_vector = self.get_embeddings([query])  # Shape: (1, dim)
+        
+        results = self.collection.query(
+            query_texts=[query],
+            n_results=k
+        )
+        
+        if not results['documents'][0]:
+            return []
 
-        # Compute cosine similarity: dot product of normalized query and database vectors
-        # Shape: (num_docs,)
-        similarities = np.dot(self.embeddings, query_vector[0])
+        # Reconstruct the original document dictionary structure for compatibility
+        out_results = []
+        for i in range(len(results['documents'][0])):
+            doc_id = results['ids'][0][i]
+            text = results['documents'][0][i]
+            metadata = results['metadatas'][0][i]
+            distance = results['distances'][0][i]
+            
+            doc_dict = {
+                "id": doc_id,
+                "text": text,
+                "external_id": metadata["external_id"],
+                "name": metadata["name"],
+                "type": metadata["type"]
+            }
+            out_results.append((doc_dict, float(distance)))
 
-        # Get top-k indices sorted descending
-        top_indices = np.argsort(similarities)[::-1][:k]
-
-        results = []
-        for idx in top_indices:
-            results.append((self.documents[idx], float(similarities[idx])))
-
-        return results
+        return out_results

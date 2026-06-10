@@ -241,6 +241,11 @@ def main() -> None:
         help="Path to experiment output JSON file for evaluation",
     )
     parser.add_argument(
+        "--clear-cache",
+        action="store_true",
+        help="Deep clean the entire cache directory (LLM, Retrieval, ChromaDB, XML)",
+    )
+    parser.add_argument(
         "--eval-model",
         type=str,
         default="llama_groq",
@@ -261,6 +266,10 @@ def main() -> None:
         return
 
     if args.mode == "preprocess":
+        if args.clear_cache:
+            from preprocessing.preprocess import clear_all_caches
+            clear_all_caches()
+            return
         preprocess_mode(rebuild=args.rebuild_cache)
     elif args.mode == "interactive":
         interactive_mode(dev_mode=dev_mode)

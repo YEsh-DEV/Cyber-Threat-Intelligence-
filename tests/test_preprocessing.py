@@ -61,9 +61,14 @@ def test_preprocess_xml():
 
     # Verify event structure
     sample = events[0]
-    required_keys = {"event_id", "file_source", "narrative", "date", "info", "attributes"}
+    required_keys = {"global_id", "event_id", "file_source", "narrative", "date", "info", "attributes"}
     assert required_keys.issubset(sample.keys()), f"Missing keys in event: {required_keys - sample.keys()}"
-    logger.info("Event structure valid. Sample event_id: %s", sample["event_id"])
+    logger.info("Event structure valid. Sample global_id: %s", sample["global_id"])
+
+    # Verify uniqueness of global_id
+    global_ids = [e["global_id"] for e in events]
+    assert len(global_ids) == len(set(global_ids)), "Duplicate global_ids found!"
+    logger.info("Verified all %d global_ids are unique", len(global_ids))
 
     logger.info("PASS: preprocess_xml()")
     return events

@@ -155,10 +155,23 @@ class GraphRAGRetriever(BaseRetriever):
         except Exception as e:
             logger.error("Failed to save graph cache: %s", e)
 
-    def get_context(self, query_text: str) -> List[str]:
+    def get_context(self, query_text: str, global_id: Optional[str] = None) -> List[str]:
         """
-        Retrieve context utilizing hybrid vector search + graph traversal.
+        Retrieve graph-augmented context for the given cybersecurity narrative.
         """
+        from preprocessing.cache_manager import CacheManager
+
+        # Check cache first
+        if global_id:
+            cached_context = CacheManager.get_retrieval_cache(self.name, global_id)
+            if cached_context is not None:
+                logger.info("Loaded retrieved context from cache for %s", global_id)
+                return cached_context
+
+        if self.graph.number_of_nodes() == 0:
+            logger.warning("Graph is empty. Returning no context.")
+            return []
+
         logger.info("Retrieving GraphRAG context for narrative...")
         
         try:
@@ -223,6 +236,10 @@ class GraphRAGRetriever(BaseRetriever):
                 )
 
                 context_passages.append(passage)
+
+            # Save to cache
+            if global_id:
+                CacheManager.set_retrieval_cache(self.name, global_id, context_passages)
 
             return context_passages
 

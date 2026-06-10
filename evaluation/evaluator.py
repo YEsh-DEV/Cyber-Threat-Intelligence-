@@ -140,29 +140,29 @@ class Evaluator:
         report_path = report_dir / report_filename
 
         for i, res in enumerate(results, 1):
-            event_id = res.get("event_id")
+            global_id = res.get("global_id", res.get("event_id")) # Fallback for old runs
             status = res.get("status")
             extraction = res.get("extraction", {})
 
             if status == "error" or not extraction:
-                logger.info("Skipping failed event %s in evaluation.", event_id)
+                logger.info("Skipping failed event %s in evaluation.", global_id)
                 continue
 
-            narrative = narrative_lookup.get(event_id, "")
+            narrative = narrative_lookup.get(global_id, "")
             if not narrative:
-                logger.warning("Original narrative for event %s not found. Skipping.", event_id)
+                logger.warning("Original narrative for event %s not found. Skipping.", global_id)
                 continue
 
             # Fetch context if retriever is supplied
             context = None
             if retriever_for_context:
-                context = retriever_for_context.get_context(narrative)
+                context = retriever_for_context.get_context(narrative, global_id=global_id)
 
-            logger.info("Evaluating event %d/%d (ID=%s)...", i, len(results), event_id)
+            logger.info("Evaluating event %d/%d (Global ID=%s)...", i, len(results), global_id)
             scores = self.evaluate(narrative, extraction, context)
 
             evaluated_results.append({
-                "event_id": event_id,
+                "global_id": global_id,
                 "scores": scores,
             })
 
