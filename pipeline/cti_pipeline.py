@@ -53,6 +53,7 @@ class CTIPipeline:
         model_name: str,
         retriever_name: str,
         dev_mode: bool = True,
+        run_id: Optional[str] = None,
     ) -> None:
         from config import (
             OUTPUT_DIR,
@@ -83,8 +84,18 @@ class CTIPipeline:
         self.prompt_template = self._load_prompt()
 
         # Run metadata — unique run ID for checkpoint isolation
-        self.run_timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
-        self.run_id = f"{model_name}_{retriever_name}_{self.run_timestamp}"
+        if run_id:
+            self.run_id = run_id
+            # Extract timestamp from run_id if format matches f"{model_name}_{retriever_name}_{run_timestamp}"
+            parts = run_id.split("_")
+            if len(parts) >= 6:
+                self.run_timestamp = "_".join(parts[-6:])
+            else:
+                self.run_timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+        else:
+            self.run_timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+            self.run_id = f"{model_name}_{retriever_name}_{self.run_timestamp}"
+            
         self.run_dir = self.output_dir / f"run_{self.run_timestamp}"
 
         logger.info(
@@ -453,22 +464,38 @@ class CTIPipeline:
 
     def _resume_from_checkpoint(self) -> Optional[int]:
         """
-        Look for the most recent checkpoint for this model+retriever combo.
+        Look for the most recent checkpoint for the current run_id.
 
         Returns:
             The event index to resume from, or None if no checkpoint.
         """
-        pattern = f"checkpoint_{self.model_name}_{self.retriever_name}_*.json"
+        pattern = f"checkpoint_{self.run_id}_*.json"
         checkpoints = sorted(self.checkpoint_dir.glob(pattern))
 
         if not checkpoints:
             return None
 
-        latest = checkpoints[-1]
-        logger.info("Found checkpoint: %s", latest.name)
+        # Sort based on numeric index to find the highest
+        latest_index = -1
+        latest_checkpoint = None
+        for cp in checkpoints:
+            try:
+                # filename format: checkpoint_{run_id}_{index}.json
+                idx_str = cp.name.replace(f"checkpoint_{self.run_id}_", "").replace(".json", "")
+                idx = int(idx_str)
+                if idx > latest_index:
+                    latest_index = idx
+                    latest_checkpoint = cp
+            except ValueError:
+                continue
+
+        if latest_checkpoint is None:
+            return None
+
+        logger.info("Found checkpoint: %s", latest_checkpoint.name)
 
         try:
-            with open(latest, "r", encoding="utf-8") as f:
+            with open(latest_checkpoint, "r", encoding="utf-8") as f:
                 data = json.load(f)
             return data.get("events_processed", 0)
         except Exception as e:
@@ -477,7 +504,7 @@ class CTIPipeline:
 
     def _load_checkpoint_results(self, index: int) -> List[EventResult]:
         """
-        Load results from the most recent matching checkpoint file.
+        Load results from the current run_id's checkpoint file at the given index.
 
         Args:
             index: The checkpoint event index.
@@ -485,21 +512,12 @@ class CTIPipeline:
         Returns:
             List of EventResult objects from the checkpoint.
         """
-        pattern = f"checkpoint_{self.model_name}_{self.retriever_name}_*_{index}.json"
-        checkpoints = sorted(self.checkpoint_dir.glob(pattern))
-
-        if not checkpoints:
-            # Fallback: try the old naming convention
-            old_pattern = f"checkpoint_{self.model_name}_{self.retriever_name}_{index}.json"
-            checkpoint_path = self.checkpoint_dir / old_pattern
-            if not checkpoint_path.exists():
-                return []
-            checkpoints = [checkpoint_path]
-
-        latest = checkpoints[-1]
+        checkpoint_path = self.checkpoint_dir / f"checkpoint_{self.run_id}_{index}.json"
+        if not checkpoint_path.exists():
+            return []
 
         try:
-            with open(latest, "r", encoding="utf-8") as f:
+            with open(checkpoint_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
             return [EventResult(**r) for r in data.get("results", [])]
         except Exception as e:

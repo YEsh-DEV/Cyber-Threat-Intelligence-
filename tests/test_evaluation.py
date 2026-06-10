@@ -109,6 +109,7 @@ def test_batch_evaluation(evaluator):
         },
         "results": [
             {
+                "global_id": "CTIDataset_2008_ReportEvent_2",
                 "event_id": "2",
                 "file_source": "CTIDataset_2008_ReportEvent.xml",
                 "extraction": {
@@ -145,11 +146,11 @@ def test_batch_evaluation(evaluator):
         
     print(f"  [OK] Evaluated Events Count: {saved_report['evaluation_metadata']['evaluated_events']}")
     print(f"  [OK] Batch Average Scores:")
-    for metric, avg in saved_report["average_scores"].items():
+    for metric, avg in saved_report["statistics"]["averages"].items():
         print(f"       - {metric}: {avg}")
         
     assert saved_report['evaluation_metadata']['evaluated_events'] == 1, "Should evaluate exactly 1 event"
-    assert "average_scores" in saved_report, "Report should include average scores"
+    assert "statistics" in saved_report, "Report should include statistics"
     assert len(saved_report["detailed_scores"]) == 1, "Report should include detailed scores for the event"
 
     return True

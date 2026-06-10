@@ -6,7 +6,7 @@ to retrieve relevant tactics, techniques, software, and threat groups.
 """
 
 import logging
-from typing import Any, List
+from typing import Any, List, Optional
 
 from retrievers.base_retriever import BaseRetriever
 from retrievers.vector_store import VectorStore

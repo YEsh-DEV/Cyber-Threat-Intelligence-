@@ -1,0 +1,172 @@
+[
+  {
+    "index": 1,
+    "global_id": "CTIDataset_2019_MalwareEvent_2533",
+    "narrative_preview": "Event 2533 from CTIDataset_2019_MalwareEvent.xml occurred on 2019-07-07.\nInfo: 77805a46f73e118ae2428f8c22ba28f79f7c60aeb6305d41c0bf3ebb9ce70f94\n\nNo attributes recorded for this event....",
+    "llm_only_context_count": 0,
+    "vanilla_rag_context_count": 3,
+    "vanilla_rag_context": [
+      "MITRE ATT&CK Malware: AuditCred (S0347)\nDescription: [AuditCred](https://attack.mitre.org/software/S0347) is a malicious DLL that has been used by [Lazarus Group](https://attack.mitre.org/groups/G0032) during their 2018 attacks.(Citation: TrendMicro Lazarus Nov 2018)...",
+      "MITRE ATT&CK Malware: Zebrocy (S0251)\nDescription: [Zebrocy](https://attack.mitre.org/software/S0251) is a Trojan that has been used by [APT28](https://attack.mitre.org/groups/G0007) since at least November 2015. The malware comes in several programming language variants, including C++, Delphi, Auto...",
+      "MITRE ATT&CK Malware: Neoichor (S0691)\nDescription: [Neoichor](https://attack.mitre.org/software/S0691) is C2 malware used by [Ke3chang](https://attack.mitre.org/groups/G0004) since at least 2019; similar malware families used by the group include Leeson and Numbldea.(Citation: Microsoft NICKEL Dece..."
+    ],
+    "graph_rag_context_count": 2,
+    "graph_rag_context": [
+      "MITRE ATT&CK Malware: AuditCred (S0347)\nDescription: [AuditCred](https://attack.mitre.org/software/S0347) is a malicious DLL that has been used by [Lazarus Group](https://attack.mitre.org/groups/G0032) during their 2018 attacks.(Citation: TrendMicro Lazarus Nov 2018)...\n\nMapped Relationships:\n- Audi...",
+      "MITRE ATT&CK Malware: Zebrocy (S0251)\nDescription: [Zebrocy](https://attack.mitre.org/software/S0251) is a Trojan that has been used by [APT28](https://attack.mitre.org/groups/G0007) since at least November 2015. The malware comes in several programming language variants, including C++, Delphi, Auto..."
+    ]
+  },
+  {
+    "index": 2,
+    "global_id": "CTIDataset_2013_MalwareEvent_2150",
+    "narrative_preview": "Event 2150 from CTIDataset_2013_MalwareEvent.xml occurred on 2010-03-29.\nInfo: c030d67c8696b9cbcc600867363ef9bd\n\n[Other]\n  - comment: NormanShark-MaudiOperation.pdf\n\n[Payload installation]\n  - md5: c030d67c8696b9cbcc600867363ef9bd\n  - sha1: 8401d8c92de4886a7aea2fae8dbd523beecfe623\n  - sha256: 72d918...",
+    "llm_only_context_count": 0,
+    "vanilla_rag_context_count": 3,
+    "vanilla_rag_context": [
+      "MITRE ATT&CK Malware: Zebrocy (S0251)\nDescription: [Zebrocy](https://attack.mitre.org/software/S0251) is a Trojan that has been used by [APT28](https://attack.mitre.org/groups/G0007) since at least November 2015. The malware comes in several programming language variants, including C++, Delphi, Auto...",
+      "MITRE ATT&CK Malware: AuditCred (S0347)\nDescription: [AuditCred](https://attack.mitre.org/software/S0347) is a malicious DLL that has been used by [Lazarus Group](https://attack.mitre.org/groups/G0032) during their 2018 attacks.(Citation: TrendMicro Lazarus Nov 2018)...",
+      "MITRE ATT&CK Malware: Xbash (S0341)\nDescription: [Xbash](https://attack.mitre.org/software/S0341) is a malware family that has targeted Linux and Microsoft Windows servers. The malware has been tied to the Iron Group, a threat actor group known for previous ransomware attacks. [Xbash](https://attack..."
+    ],
+    "graph_rag_context_count": 2,
+    "graph_rag_context": [
+      "MITRE ATT&CK Malware: Zebrocy (S0251)\nDescription: [Zebrocy](https://attack.mitre.org/software/S0251) is a Trojan that has been used by [APT28](https://attack.mitre.org/groups/G0007) since at least November 2015. The malware comes in several programming language variants, including C++, Delphi, Auto...",
+      "MITRE ATT&CK Malware: AuditCred (S0347)\nDescription: [AuditCred](https://attack.mitre.org/software/S0347) is a malicious DLL that has been used by [Lazarus Group](https://attack.mitre.org/groups/G0032) during their 2018 attacks.(Citation: TrendMicro Lazarus Nov 2018)...\n\nMapped Relationships:\n- Audi..."
+    ]
+  },
+  {
+    "index": 3,
+    "global_id": "CTIDataset_2011_MalwareEvent_369",
+    "narrative_preview": "Event 369 from CTIDataset_2011_MalwareEvent.xml occurred on 2009-01-01.\nInfo: 546c4bbebf02a1604eb2caaad4974de0\n\n[Other]\n  - comment: Evolution_Drivers_Duqu_Stuxnet.pdf\n\n[Payload installation]\n  - md5: 546c4bbebf02a1604eb2caaad4974de0\n  - sha1: c96c41fef804bddcabb9967d4dc1eb527443c9bc\n  - sha256: 406...",
+    "llm_only_context_count": 0,
+    "vanilla_rag_context_count": 3,
+    "vanilla_rag_context": [
+      "MITRE ATT&CK Malware: XAgentOSX (S0161)\nDescription: [XAgentOSX](https://attack.mitre.org/software/S0161) is a trojan that has been used by [APT28](https://attack.mitre.org/groups/G0007)  on OS X and appears to be a port of their standard [CHOPSTICK](https://attack.mitre.org/software/S0023) or XAgen...",
+      "MITRE ATT&CK Malware: Sibot (S0589)\nDescription: [Sibot](https://attack.mitre.org/software/S0589) is dual-purpose malware written in VBScript designed to achieve persistence on a compromised system as well as download and execute additional payloads. Microsoft discovered three [Sibot](https://attack...",
+      "MITRE ATT&CK Malware: Truvasys (S0178)\nDescription: [Truvasys](https://attack.mitre.org/software/S0178) is first-stage malware that has been used by [PROMETHIUM](https://attack.mitre.org/groups/G0056). It is a collection of modules written in the Delphi programming language. (Citation: Microsoft Win..."
+    ],
+    "graph_rag_context_count": 2,
+    "graph_rag_context": [
+      "MITRE ATT&CK Malware: XAgentOSX (S0161)\nDescription: [XAgentOSX](https://attack.mitre.org/software/S0161) is a trojan that has been used by [APT28](https://attack.mitre.org/groups/G0007)  on OS X and appears to be a port of their standard [CHOPSTICK](https://attack.mitre.org/software/S0023) or XAgen...",
+      "MITRE ATT&CK Malware: Sibot (S0589)\nDescription: [Sibot](https://attack.mitre.org/software/S0589) is dual-purpose malware written in VBScript designed to achieve persistence on a compromised system as well as download and execute additional payloads. Microsoft discovered three [Sibot](https://attack..."
+    ]
+  },
+  {
+    "index": 4,
+    "global_id": "CTIDataset_2015_MalwareEvent_4684",
+    "narrative_preview": "Event 4684 from CTIDataset_2015_MalwareEvent.xml occurred on 2012-04-24.\nInfo: 9cf5523da799277a4d40881199eb8325\n\n[Other]\n  - comment: pwc_ScanBox_framework.pdf\n  - comment: cto-tib-20150223-01a.pdf\n\n[Payload installation]\n  - md5: 9cf5523da799277a4d40881199eb8325\n  - sha1: 809959f390d5a49c8999ad6fff...",
+    "llm_only_context_count": 0,
+    "vanilla_rag_context_count": 3,
+    "vanilla_rag_context": [
+      "MITRE ATT&CK Malware: Zebrocy (S0251)\nDescription: [Zebrocy](https://attack.mitre.org/software/S0251) is a Trojan that has been used by [APT28](https://attack.mitre.org/groups/G0007) since at least November 2015. The malware comes in several programming language variants, including C++, Delphi, Auto...",
+      "MITRE ATT&CK Malware: AuditCred (S0347)\nDescription: [AuditCred](https://attack.mitre.org/software/S0347) is a malicious DLL that has been used by [Lazarus Group](https://attack.mitre.org/groups/G0032) during their 2018 attacks.(Citation: TrendMicro Lazarus Nov 2018)...",
+      "MITRE ATT&CK Malware: PAKLOG (S1233)\nDescription: [PAKLOG](https://attack.mitre.org/software/S1233) is a keylogger known to be leveraged by [Mustang Panda](https://attack.mitre.org/groups/G0129) and was first observed utilized in 2024. [PAKLOG](https://attack.mitre.org/software/S1233) is deployed vi..."
+    ],
+    "graph_rag_context_count": 2,
+    "graph_rag_context": [
+      "MITRE ATT&CK Malware: Zebrocy (S0251)\nDescription: [Zebrocy](https://attack.mitre.org/software/S0251) is a Trojan that has been used by [APT28](https://attack.mitre.org/groups/G0007) since at least November 2015. The malware comes in several programming language variants, including C++, Delphi, Auto...",
+      "MITRE ATT&CK Malware: AuditCred (S0347)\nDescription: [AuditCred](https://attack.mitre.org/software/S0347) is a malicious DLL that has been used by [Lazarus Group](https://attack.mitre.org/groups/G0032) during their 2018 attacks.(Citation: TrendMicro Lazarus Nov 2018)...\n\nMapped Relationships:\n- Audi..."
+    ]
+  },
+  {
+    "index": 5,
+    "global_id": "CTIDataset_2014_MalwareEvent_3680",
+    "narrative_preview": "Event 3680 from CTIDataset_2014_MalwareEvent.xml occurred on 2013-08-21.\nInfo: 736aab6c731d098931d6a4bf11a8150e\n\n[Other]\n  - comment: Cylance_Operation_Cleaver_Report.pdf\n\n[Payload installation]\n  - md5: 736aab6c731d098931d6a4bf11a8150e\n  - sha1: 9b3321414173373b68ef2dbaa421b3370c583e06\n  - sha256: ...",
+    "llm_only_context_count": 0,
+    "vanilla_rag_context_count": 3,
+    "vanilla_rag_context": [
+      "MITRE ATT&CK Malware: AuditCred (S0347)\nDescription: [AuditCred](https://attack.mitre.org/software/S0347) is a malicious DLL that has been used by [Lazarus Group](https://attack.mitre.org/groups/G0032) during their 2018 attacks.(Citation: TrendMicro Lazarus Nov 2018)...",
+      "MITRE ATT&CK Malware: Lizar (S0681)\nDescription: [Lizar](https://attack.mitre.org/software/S0681) is a modular remote access tool written using the .NET Framework that shares structural similarities to [Carbanak](https://attack.mitre.org/software/S0030). It has likely been used by [FIN7](https://att...",
+      "MITRE ATT&CK Malware: Neoichor (S0691)\nDescription: [Neoichor](https://attack.mitre.org/software/S0691) is C2 malware used by [Ke3chang](https://attack.mitre.org/groups/G0004) since at least 2019; similar malware families used by the group include Leeson and Numbldea.(Citation: Microsoft NICKEL Dece..."
+    ],
+    "graph_rag_context_count": 2,
+    "graph_rag_context": [
+      "MITRE ATT&CK Malware: AuditCred (S0347)\nDescription: [AuditCred](https://attack.mitre.org/software/S0347) is a malicious DLL that has been used by [Lazarus Group](https://attack.mitre.org/groups/G0032) during their 2018 attacks.(Citation: TrendMicro Lazarus Nov 2018)...\n\nMapped Relationships:\n- Audi...",
+      "MITRE ATT&CK Malware: Lizar (S0681)\nDescription: [Lizar](https://attack.mitre.org/software/S0681) is a modular remote access tool written using the .NET Framework that shares structural similarities to [Carbanak](https://attack.mitre.org/software/S0030). It has likely been used by [FIN7](https://att..."
+    ]
+  },
+  {
+    "index": 6,
+    "global_id": "CTIDataset_2014_MalwareEvent_3919",
+    "narrative_preview": "Event 3919 from CTIDataset_2014_MalwareEvent.xml occurred on 2010-07-26.\nInfo: ebe6b78006ecffe1511f46c86d16f4aa\n\n[Other]\n  - comment: darkhotelappendixindicators_kl.pdf\n\n[Payload installation]\n  - md5: ebe6b78006ecffe1511f46c86d16f4aa\n  - sha1: 8b21091b898ecc2f7b8ae25508c092322b25ffe1\n  - sha256: 31...",
+    "llm_only_context_count": 0,
+    "vanilla_rag_context_count": 3,
+    "vanilla_rag_context": [
+      "MITRE ATT&CK Malware: Dtrack (S0567)\nDescription: [Dtrack](https://attack.mitre.org/software/S0567) is spyware that was discovered in 2019 and has been used against Indian financial institutions, research facilities, and the Kudankulam Nuclear Power Plant. [Dtrack](https://attack.mitre.org/software/...",
+      "MITRE ATT&CK Malware: AuditCred (S0347)\nDescription: [AuditCred](https://attack.mitre.org/software/S0347) is a malicious DLL that has been used by [Lazarus Group](https://attack.mitre.org/groups/G0032) during their 2018 attacks.(Citation: TrendMicro Lazarus Nov 2018)...",
+      "MITRE ATT&CK Malware: Aria-body (S0456)\nDescription: [Aria-body](https://attack.mitre.org/software/S0456) is a custom backdoor that has been used by [Naikon](https://attack.mitre.org/groups/G0019) since approximately 2017.(Citation: CheckPoint Naikon May 2020)..."
+    ],
+    "graph_rag_context_count": 2,
+    "graph_rag_context": [
+      "MITRE ATT&CK Malware: Dtrack (S0567)\nDescription: [Dtrack](https://attack.mitre.org/software/S0567) is spyware that was discovered in 2019 and has been used against Indian financial institutions, research facilities, and the Kudankulam Nuclear Power Plant. [Dtrack](https://attack.mitre.org/software/...",
+      "MITRE ATT&CK Malware: AuditCred (S0347)\nDescription: [AuditCred](https://attack.mitre.org/software/S0347) is a malicious DLL that has been used by [Lazarus Group](https://attack.mitre.org/groups/G0032) during their 2018 attacks.(Citation: TrendMicro Lazarus Nov 2018)...\n\nMapped Relationships:\n- Audi..."
+    ]
+  },
+  {
+    "index": 7,
+    "global_id": "CTIDataset_2013_MalwareEvent_3094",
+    "narrative_preview": "Event 3094 from CTIDataset_2013_MalwareEvent.xml occurred on 2011-01-14.\nInfo: 4d348c8a88dd1ef4c135bc8a1c117ed0\n\n[Other]\n  - comment: Unveiling an Indian Cyberattack Infrastructure - appendixes.pdf\n\n[Payload installation]\n  - md5: 4d348c8a88dd1ef4c135bc8a1c117ed0\n  - sha1: 944919fb6d40ff76631227ba3e...",
+    "llm_only_context_count": 0,
+    "vanilla_rag_context_count": 3,
+    "vanilla_rag_context": [
+      "MITRE ATT&CK Malware: PUBLOAD (S1228)\nDescription: [PUBLOAD](https://attack.mitre.org/software/S1228) is a stager malware that has been observed installing itself in existing directories such as `C:\\Users\\Public` or creating new directories to stage the malware and its components.(Citation: 2022 Nov...",
+      "MITRE ATT&CK Malware: Dtrack (S0567)\nDescription: [Dtrack](https://attack.mitre.org/software/S0567) is spyware that was discovered in 2019 and has been used against Indian financial institutions, research facilities, and the Kudankulam Nuclear Power Plant. [Dtrack](https://attack.mitre.org/software/...",
+      "MITRE ATT&CK Malware: AuditCred (S0347)\nDescription: [AuditCred](https://attack.mitre.org/software/S0347) is a malicious DLL that has been used by [Lazarus Group](https://attack.mitre.org/groups/G0032) during their 2018 attacks.(Citation: TrendMicro Lazarus Nov 2018)..."
+    ],
+    "graph_rag_context_count": 2,
+    "graph_rag_context": [
+      "MITRE ATT&CK Malware: PUBLOAD (S1228)\nDescription: [PUBLOAD](https://attack.mitre.org/software/S1228) is a stager malware that has been observed installing itself in existing directories such as `C:\\Users\\Public` or creating new directories to stage the malware and its components.(Citation: 2022 Nov...",
+      "MITRE ATT&CK Malware: Dtrack (S0567)\nDescription: [Dtrack](https://attack.mitre.org/software/S0567) is spyware that was discovered in 2019 and has been used against Indian financial institutions, research facilities, and the Kudankulam Nuclear Power Plant. [Dtrack](https://attack.mitre.org/software/..."
+    ]
+  },
+  {
+    "index": 8,
+    "global_id": "CTIDataset_2013_MalwareEvent_1788",
+    "narrative_preview": "Event 1788 from CTIDataset_2013_MalwareEvent.xml occurred on 2018-04-13.\nInfo: bd11592557d2dba4e2cc5cdfdbc61cba64735ae01050db58557e2281389512a0\n\n[Other]\n  - comment: kaspersky-the-net-traveler-part1-final.pdf\n\n[Payload installation]\n  - md5: 01d06f85fce63444c3563fe3bd20c004\n  - sha1: c4192f0994d5b9a...",
+    "llm_only_context_count": 0,
+    "vanilla_rag_context_count": 3,
+    "vanilla_rag_context": [
+      "MITRE ATT&CK Malware: Zebrocy (S0251)\nDescription: [Zebrocy](https://attack.mitre.org/software/S0251) is a Trojan that has been used by [APT28](https://attack.mitre.org/groups/G0007) since at least November 2015. The malware comes in several programming language variants, including C++, Delphi, Auto...",
+      "MITRE ATT&CK Malware: AuditCred (S0347)\nDescription: [AuditCred](https://attack.mitre.org/software/S0347) is a malicious DLL that has been used by [Lazarus Group](https://attack.mitre.org/groups/G0032) during their 2018 attacks.(Citation: TrendMicro Lazarus Nov 2018)...",
+      "MITRE ATT&CK Malware: Tomiris (S0671)\nDescription: [Tomiris](https://attack.mitre.org/software/S0671) is a backdoor written in Go that continuously queries its C2 server for executables to download and execute on a victim system. It was first reported in September 2021 during an investigation of a s..."
+    ],
+    "graph_rag_context_count": 2,
+    "graph_rag_context": [
+      "MITRE ATT&CK Malware: Zebrocy (S0251)\nDescription: [Zebrocy](https://attack.mitre.org/software/S0251) is a Trojan that has been used by [APT28](https://attack.mitre.org/groups/G0007) since at least November 2015. The malware comes in several programming language variants, including C++, Delphi, Auto...",
+      "MITRE ATT&CK Malware: AuditCred (S0347)\nDescription: [AuditCred](https://attack.mitre.org/software/S0347) is a malicious DLL that has been used by [Lazarus Group](https://attack.mitre.org/groups/G0032) during their 2018 attacks.(Citation: TrendMicro Lazarus Nov 2018)...\n\nMapped Relationships:\n- Audi..."
+    ]
+  },
+  {
+    "index": 9,
+    "global_id": "CTIDataset_2019_ReportEvent_2058",
+    "narrative_preview": "Event 2058 from CTIDataset_2019_ReportEvent.xml occurred on 2019-04-22.\nInfo: FINTEAM Trojanized TeamViewer Against Government Targets.pdf\n\nNo attributes recorded for this event....",
+    "llm_only_context_count": 0,
+    "vanilla_rag_context_count": 3,
+    "vanilla_rag_context": [
+      "MITRE ATT&CK Malware: Dtrack (S0567)\nDescription: [Dtrack](https://attack.mitre.org/software/S0567) is spyware that was discovered in 2019 and has been used against Indian financial institutions, research facilities, and the Kudankulam Nuclear Power Plant. [Dtrack](https://attack.mitre.org/software/...",
+      "MITRE ATT&CK Malware: Hydraq (S0203)\nDescription: [Hydraq](https://attack.mitre.org/software/S0203) is a data-theft trojan first used by [Elderwood](https://attack.mitre.org/groups/G0066) in the 2009 Google intrusion known as Operation Aurora, though variations of this trojan have been used in more ...",
+      "MITRE ATT&CK Malware: Zebrocy (S0251)\nDescription: [Zebrocy](https://attack.mitre.org/software/S0251) is a Trojan that has been used by [APT28](https://attack.mitre.org/groups/G0007) since at least November 2015. The malware comes in several programming language variants, including C++, Delphi, Auto..."
+    ],
+    "graph_rag_context_count": 2,
+    "graph_rag_context": [
+      "MITRE ATT&CK Malware: Dtrack (S0567)\nDescription: [Dtrack](https://attack.mitre.org/software/S0567) is spyware that was discovered in 2019 and has been used against Indian financial institutions, research facilities, and the Kudankulam Nuclear Power Plant. [Dtrack](https://attack.mitre.org/software/...",
+      "MITRE ATT&CK Malware: Hydraq (S0203)\nDescription: [Hydraq](https://attack.mitre.org/software/S0203) is a data-theft trojan first used by [Elderwood](https://attack.mitre.org/groups/G0066) in the 2009 Google intrusion known as Operation Aurora, though variations of this trojan have been used in more ..."
+    ]
+  },
+  {
+    "index": 10,
+    "global_id": "CTIDataset_2017_ReportEvent_8494",
+    "narrative_preview": "Event 8494 from CTIDataset_2017_ReportEvent.xml occurred on 2017-10-16.\nInfo: BAESytems_Taiwan-Heist-Lazarus-Tools-Ransomware(10-16-2017).pdf\n\n[Other]\n  - comment: BAESytems_Taiwan-Heist-Lazarus-Tools-Ransomware(10-16-2017).pdf\n\n[External analysis]\n  - filename: cntaosmgr.exe\n  - filename: powershel...",
+    "llm_only_context_count": 0,
+    "vanilla_rag_context_count": 3,
+    "vanilla_rag_context": [
+      "MITRE ATT&CK Malware: Diavol (S0659)\nDescription: [Diavol](https://attack.mitre.org/software/S0659) is a ransomware variant first observed in June 2021 that is capable of prioritizing file types to encrypt based on a pre-configured list of extensions defined by the attacker.  The [Diavol](https://at...",
+      "MITRE ATT&CK Malware: AuditCred (S0347)\nDescription: [AuditCred](https://attack.mitre.org/software/S0347) is a malicious DLL that has been used by [Lazarus Group](https://attack.mitre.org/groups/G0032) during their 2018 attacks.(Citation: TrendMicro Lazarus Nov 2018)...",
+      "MITRE ATT&CK Malware: HUI Loader (S1097)\nDescription: [HUI Loader](https://attack.mitre.org/software/S1097) is a custom DLL loader that has been used since at least 2015 by China-based threat groups including [Cinnamon Tempest](https://attack.mitre.org/groups/G1021) and [menuPass](https://attack.mit..."
+    ],
+    "graph_rag_context_count": 2,
+    "graph_rag_context": [
+      "MITRE ATT&CK Malware: Diavol (S0659)\nDescription: [Diavol](https://attack.mitre.org/software/S0659) is a ransomware variant first observed in June 2021 that is capable of prioritizing file types to encrypt based on a pre-configured list of extensions defined by the attacker.  The [Diavol](https://at...",
+      "MITRE ATT&CK Malware: AuditCred (S0347)\nDescription: [AuditCred](https://attack.mitre.org/software/S0347) is a malicious DLL that has been used by [Lazarus Group](https://attack.mitre.org/groups/G0032) during their 2018 attacks.(Citation: TrendMicro Lazarus Nov 2018)...\n\nMapped Relationships:\n- Audi..."
+    ]
+  }
+]
