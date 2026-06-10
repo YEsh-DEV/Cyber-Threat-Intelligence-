@@ -68,6 +68,16 @@ class VectorStore:
             logger.info("MITRE ATT&CK dataset found locally: %s", self.stix_path)
             return
 
+        # Fallback: check data/ directory if STIX was downloaded there previously
+        from config import PROJECT_ROOT
+        fallback_path = PROJECT_ROOT / "data" / "enterprise-attack.json"
+        if fallback_path.exists() and fallback_path != self.stix_path:
+            logger.info("STIX file not found at expected path: %s. Checking data/ directory...", self.stix_path)
+            import shutil
+            shutil.copy2(fallback_path, self.stix_path)
+            logger.info("Copied STIX file from %s to %s", fallback_path, self.stix_path)
+            return
+
         logger.info("Downloading MITRE ATT&CK dataset from %s...", self.MITRE_URL)
         try:
             # Set verify=False to ignore SSL errors from decrypting firewalls

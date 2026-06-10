@@ -20,9 +20,10 @@ OUTPUT_DIR = PROJECT_ROOT / "outputs"
 CHECKPOINT_DIR = PROJECT_ROOT / "checkpoints"
 LOG_DIR = PROJECT_ROOT / "logs"
 PROMPT_DIR = PROJECT_ROOT / "prompts"
+CACHE_DIR = PROJECT_ROOT / "cache"
 
 # ─── Ensure Directories Exist ────────────────────────────────────────────────
-for _dir in [OUTPUT_DIR, CHECKPOINT_DIR, LOG_DIR]:
+for _dir in [OUTPUT_DIR, CHECKPOINT_DIR, LOG_DIR, CACHE_DIR]:
     _dir.mkdir(parents=True, exist_ok=True)
 
 # ─── Runtime Mode ────────────────────────────────────────────────────────────
@@ -36,6 +37,11 @@ CHECKPOINT_INTERVAL = 50  # Save checkpoint every N events
 MAX_RETRIES = 3
 RETRY_BASE_DELAY = 2  # seconds (exponential backoff base)
 REQUEST_TIMEOUT = 300  # seconds (generous for local Ollama models)
+
+# ─── Model Generation Settings (centralized) ────────────────────────────────
+TEMPERATURE = 0.1  # Low temperature for structured extraction output
+TEMPERATURE_RAW = 0.3  # Slightly higher for free-form generation
+MAX_OUTPUT_TOKENS = 4096  # Max tokens for JSON output generation
 
 # ─── API Keys (from .env) ────────────────────────────────────────────────────
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
@@ -112,3 +118,14 @@ EVALUATION_PROMPT_FILE = PROMPT_DIR / "evaluation_prompt.txt"
 LOG_LEVEL = "INFO"
 LOG_FORMAT = "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
 LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+
+# ─── Git Hash (for reproducibility tracking) ─────────────────────────────────
+try:
+    import subprocess
+    GIT_HASH = subprocess.check_output(
+        ["git", "rev-parse", "--short", "HEAD"],
+        cwd=str(PROJECT_ROOT),
+        stderr=subprocess.DEVNULL,
+    ).decode().strip()
+except Exception:
+    GIT_HASH = "unknown"

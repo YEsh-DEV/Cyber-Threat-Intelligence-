@@ -42,13 +42,14 @@ class OllamaLLM(BaseLLM):
     ) -> None:
         super().__init__(model_name, **kwargs)
 
-        from config import OLLAMA_BASE_URL, OLLAMA_MODEL_NAME, MAX_RETRIES, RETRY_BASE_DELAY, REQUEST_TIMEOUT
+        from config import OLLAMA_BASE_URL, OLLAMA_MODEL_NAME, MAX_RETRIES, RETRY_BASE_DELAY, REQUEST_TIMEOUT, TEMPERATURE
 
         self.model_id = model_id or OLLAMA_MODEL_NAME
         self.base_url = (base_url or OLLAMA_BASE_URL).rstrip("/")
         self.max_retries = MAX_RETRIES
         self.retry_base_delay = RETRY_BASE_DELAY
         self.request_timeout = REQUEST_TIMEOUT
+        self.temperature = TEMPERATURE
 
         # Ollama API endpoints
         self._generate_url = f"{self.base_url}/api/generate"
@@ -200,7 +201,7 @@ class OllamaLLM(BaseLLM):
             ],
             "stream": False,
             "options": {
-                "temperature": 0.1,  # Low temp for structured output
+                "temperature": self.temperature,  # Centralized from config
                 "num_predict": 4096,  # Allow enough tokens for JSON
             },
             "format": "json",  # Request JSON output mode
@@ -250,12 +251,14 @@ class OllamaLLM(BaseLLM):
         Returns:
             Raw text response from the model.
         """
+        from config import TEMPERATURE_RAW
+
         payload = {
             "model": self.model_id,
             "prompt": prompt,
             "stream": False,
             "options": {
-                "temperature": 0.3,
+                "temperature": TEMPERATURE_RAW,
                 "num_predict": 2048,
             },
         }

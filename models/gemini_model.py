@@ -29,13 +29,14 @@ class GeminiLLM(BaseLLM):
     ) -> None:
         super().__init__(model_name, **kwargs)
 
-        from config import GEMINI_API_KEY, MAX_RETRIES, RETRY_BASE_DELAY, REQUEST_TIMEOUT
+        from config import GEMINI_API_KEY, MAX_RETRIES, RETRY_BASE_DELAY, REQUEST_TIMEOUT, TEMPERATURE
 
         self.model_id = model_id
         self.api_key = api_key or GEMINI_API_KEY
         self.max_retries = MAX_RETRIES
         self.retry_base_delay = RETRY_BASE_DELAY
         self.request_timeout = REQUEST_TIMEOUT
+        self.temperature = TEMPERATURE
 
         if not self.api_key:
             logger.warning("Gemini API key not configured. Calls will fail.")
@@ -65,7 +66,7 @@ class GeminiLLM(BaseLLM):
                 "parts": [{"text": system_prompt}]
             },
             "generationConfig": {
-                "temperature": 0.1,
+                "temperature": self.temperature,
                 "responseMimeType": "application/json"
             }
         }
@@ -103,6 +104,15 @@ class GeminiLLM(BaseLLM):
 
                     parsed = self._extract_json(content_text)
                     if parsed is not None:
+                        # Log token usage if available
+                        usage = result.get("usageMetadata", {})
+                        if usage:
+                            logger.info(
+                                "Gemini token usage: prompt=%d, completion=%d, total=%d",
+                                usage.get("promptTokenCount", 0),
+                                usage.get("candidatesTokenCount", 0),
+                                usage.get("totalTokenCount", 0),
+                            )
                         return parsed
 
                     last_error = ValueError(f"Could not extract valid JSON from Gemini response: {content_text}")
@@ -142,7 +152,7 @@ class GeminiLLM(BaseLLM):
                 }
             ],
             "generationConfig": {
-                "temperature": 0.3
+                "temperature": self.temperature
             }
         }
 

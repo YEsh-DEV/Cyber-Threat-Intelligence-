@@ -2,9 +2,11 @@
 CTI Knowledge Graph Extraction & Benchmarking Framework
 Main Entry Point
 
-Supports two modes:
+Supports multiple modes:
   1. Interactive Mode -- User selects retrieval strategy and model
   2. Batch Benchmark Mode -- Runs full 3x4 experiment matrix
+  3. Preprocess Mode -- Run preprocessing independently
+  4. Evaluate Mode -- Run evaluation on existing outputs
 """
 
 import argparse
@@ -25,6 +27,23 @@ def setup_logging() -> None:
             logging.FileHandler(LOG_DIR / "cti_framework.log", encoding="utf-8"),
         ],
     )
+
+
+def preprocess_mode(rebuild: bool = False) -> None:
+    """Run preprocessing to cache datasets."""
+    from preprocessing.preprocess import preprocess_all
+
+    print("\n" + "=" * 60)
+    print("  CTI Knowledge Graph -- Preprocessing")
+    print("=" * 60)
+
+    summary = preprocess_all(force=rebuild)
+
+    print(f"\n-> Preprocessing complete:")
+    print(f"   XML events cached: {summary['xml_events']}")
+    print(f"   XML parse time: {summary['xml_time_seconds']}s")
+    print(f"   STIX setup time: {summary['stix_time_seconds']}s")
+    print(f"   Total time: {summary['total_time_seconds']}s")
 
 
 def interactive_mode(dev_mode: bool = True) -> None:
@@ -93,6 +112,32 @@ def interactive_mode(dev_mode: bool = True) -> None:
             print(f"\n  Loaded: {stats['events_created']} events, "
                   f"{stats['entities_created']} entities, "
                   f"{stats['relations_created']} relations")
+
+
+def evaluate_mode(output_path: str, eval_model: str = "llama_groq") -> None:
+    """Run evaluation on an existing experiment output file."""
+    from evaluation.evaluator import Evaluator
+
+    print("\n" + "=" * 60)
+    print("  CTI Knowledge Graph -- Evaluation Mode")
+    print("=" * 60)
+
+    print(f"\n-> Evaluating: {output_path}")
+    print(f"   Judge model: {eval_model}")
+    print()
+
+    evaluator = Evaluator(evaluator_model_name=eval_model)
+    report = evaluator.evaluate_batch(output_path)
+
+    stats = report.get("statistics", {})
+    averages = stats.get("averages", {})
+    std_devs = stats.get("std_devs", {})
+
+    print(f"\n-> Evaluation complete ({stats.get('evaluated_count', 0)} events):")
+    for metric in ["faithfulness", "relevance", "evidence_coverage", "hallucination_rate"]:
+        avg = averages.get(metric, 0.0)
+        std = std_devs.get(metric, 0.0)
+        print(f"   {metric}: {avg:.3f} ± {std:.3f}")
 
 
 def batch_mode(dev_mode: bool = True) -> None:
@@ -167,9 +212,10 @@ def main() -> None:
     )
     parser.add_argument(
         "--mode",
-        choices=["interactive", "batch"],
+        choices=["interactive", "batch", "preprocess", "evaluate"],
         default="interactive",
-        help="Run mode: 'interactive' for single experiment, 'batch' for full benchmark (default: interactive)",
+        help="Run mode: 'interactive' for single experiment, 'batch' for full benchmark, "
+             "'preprocess' to build caches, 'evaluate' to score outputs (default: interactive)",
     )
     parser.add_argument(
         "--dev",
@@ -182,6 +228,24 @@ def main() -> None:
         action="store_true",
         help="Enable production mode (process all events)",
     )
+    parser.add_argument(
+        "--rebuild-cache",
+        action="store_true",
+        help="Force rebuild all preprocessed caches",
+    )
+    parser.add_argument(
+        "--evaluate",
+        dest="evaluate_path",
+        type=str,
+        default=None,
+        help="Path to experiment output JSON file for evaluation",
+    )
+    parser.add_argument(
+        "--eval-model",
+        type=str,
+        default="llama_groq",
+        help="LLM model to use as evaluation judge (default: llama_groq)",
+    )
 
     args = parser.parse_args()
 
@@ -191,10 +255,21 @@ def main() -> None:
     dev_mode = not args.prod
     logger.info("CTI Framework starting in %s mode (dev=%s)", args.mode, dev_mode)
 
-    if args.mode == "interactive":
+    # Handle --evaluate shortcut (overrides --mode)
+    if args.evaluate_path:
+        evaluate_mode(args.evaluate_path, args.eval_model)
+        return
+
+    if args.mode == "preprocess":
+        preprocess_mode(rebuild=args.rebuild_cache)
+    elif args.mode == "interactive":
         interactive_mode(dev_mode=dev_mode)
     elif args.mode == "batch":
         batch_mode(dev_mode=dev_mode)
+    elif args.mode == "evaluate":
+        # If --mode evaluate but no --evaluate path, prompt
+        path = input("Enter path to experiment output JSON: ").strip()
+        evaluate_mode(path, args.eval_model)
 
 
 if __name__ == "__main__":

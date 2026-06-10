@@ -28,19 +28,26 @@ class GraphRAGRetriever(BaseRetriever):
     def __init__(self, name: str = "graph_rag", **kwargs: Any) -> None:
         super().__init__(name, **kwargs)
 
-        from config import PROJECT_ROOT
+        from config import PROJECT_ROOT, CACHE_DIR
 
-        self.data_dir = PROJECT_ROOT / "data"
+        self.data_dir = CACHE_DIR
         self.data_dir.mkdir(parents=True, exist_ok=True)
 
         self.stix_path = self.data_dir / "enterprise-attack.json"
         self.graph_path = self.data_dir / "mitre_graph.pkl"
 
+        # Fallback: if STIX file is in data/ but not cache/, copy it
+        fallback_stix = PROJECT_ROOT / "data" / "enterprise-attack.json"
+        if not self.stix_path.exists() and fallback_stix.exists():
+            import shutil
+            shutil.copy2(fallback_stix, self.stix_path)
+            logger.info("Copied STIX file from data/ to cache/")
+
         # Graph initialization
         self.graph: nx.DiGraph = nx.DiGraph()
 
-        # Initialize vector store for similarity entry points
-        self.vector_store = VectorStore(top_k=2)
+        # Initialize vector store for similarity entry points (use cache dir)
+        self.vector_store = VectorStore(data_dir=CACHE_DIR, top_k=2)
         self.vector_store.initialize()
 
         # Build or load the NetworkX graph

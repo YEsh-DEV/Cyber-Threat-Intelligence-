@@ -3,28 +3,31 @@ CTI Extraction Pipeline
 
 Orchestrates the end-to-end extraction flow:
   1. Load prompt template
-  2. Parse XML events
+  2. Load cached events (from preprocessing layer)
   3. For each event:
-     a. Fetch context via retriever
+     a. Fetch context via retriever (tracked timing)
      b. Build prompt with context + narrative
-     c. Query LLM model
+     c. Query LLM model (tracked timing)
      d. Validate JSON output against Pydantic schema
      e. Attempt repair on validation failures
   4. Save results as versioned JSON
-  5. Create checkpoints for crash recovery
-  6. Log all progress
+  5. Save run manifest for reproducibility
+  6. Create checkpoints for crash recovery (run-ID isolated)
+  7. Log all progress
 """
 
 import json
 import logging
+import platform
+import sys
 import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from data_parsers.xml_parser import CTIXMLParser
 from models.base_model import BaseLLM
 from models.llm_factory import LLMFactory
+from preprocessing.preprocess import load_cached_events
 from retrievers.base_retriever import BaseRetriever
 from retrievers.retriever_factory import RetrieverFactory
 from schemas.extraction_schema import ExtractionResult
@@ -37,7 +40,7 @@ class CTIPipeline:
     """
     Main orchestration class for CTI knowledge extraction.
 
-    Manages the complete workflow from XML parsing through LLM extraction
+    Manages the complete workflow from cached event loading through LLM extraction
     to validated JSON output, with checkpoint recovery support.
 
     Usage:
@@ -52,12 +55,13 @@ class CTIPipeline:
         dev_mode: bool = True,
     ) -> None:
         from config import (
-            DATASET_DIR,
             OUTPUT_DIR,
             CHECKPOINT_DIR,
             CHECKPOINT_INTERVAL,
             MAX_EVENTS_DEV,
             EXTRACTION_PROMPT_FILE,
+            GIT_HASH,
+            TEMPERATURE,
         )
 
         self.model_name = model_name
@@ -67,26 +71,28 @@ class CTIPipeline:
         self.checkpoint_interval = CHECKPOINT_INTERVAL
         self.output_dir = OUTPUT_DIR
         self.checkpoint_dir = CHECKPOINT_DIR
-        self.dataset_dir = str(DATASET_DIR)
         self.prompt_file = EXTRACTION_PROMPT_FILE
+        self.git_hash = GIT_HASH
+        self.temperature = TEMPERATURE
 
         # Initialize components
         self.model: BaseLLM = LLMFactory.create(model_name)
         self.retriever: BaseRetriever = RetrieverFactory.create(retriever_name)
-        self.parser = CTIXMLParser(self.dataset_dir)
 
         # Load prompt template
         self.prompt_template = self._load_prompt()
 
-        # Run metadata
+        # Run metadata — unique run ID for checkpoint isolation
         self.run_timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+        self.run_id = f"{model_name}_{retriever_name}_{self.run_timestamp}"
         self.run_dir = self.output_dir / f"run_{self.run_timestamp}"
 
         logger.info(
-            "CTIPipeline initialized: model=%s, retriever=%s, dev=%s",
+            "CTIPipeline initialized: model=%s, retriever=%s, dev=%s, run_id=%s",
             model_name,
             retriever_name,
             dev_mode,
+            self.run_id,
         )
 
     def run(self) -> str:
@@ -99,8 +105,8 @@ class CTIPipeline:
         logger.info("Pipeline starting: %s + %s", self.model_name, self.retriever_name)
         start_time = time.time()
 
-        # Parse events
-        all_events = self.parser.parse_all()
+        # Load cached events (from preprocessing layer)
+        all_events = load_cached_events()
         logger.info("Total events available: %d", len(all_events))
 
         # Apply dev mode limit
@@ -108,7 +114,7 @@ class CTIPipeline:
             all_events = all_events[: self.max_events]
             logger.info("Dev mode: limited to %d events", self.max_events)
 
-        # Check for checkpoint resume
+        # Check for checkpoint resume (run-ID isolated)
         resume_index = self._resume_from_checkpoint()
         completed_results = []
 
@@ -134,15 +140,19 @@ class CTIPipeline:
             )
 
             try:
-                # Step 1: Get retrieval context
+                # Step 1: Get retrieval context (tracked timing)
+                retriever_start = time.time()
                 context = self.retriever.get_context(event["narrative"])
+                retriever_latency = time.time() - retriever_start
 
                 # Step 2: Build the full prompt
                 full_prompt = self._build_prompt(event["narrative"], context)
 
-                # Step 3: Query the LLM
+                # Step 3: Query the LLM (tracked timing)
                 system_prompt = self._get_system_prompt()
+                model_start = time.time()
                 raw_result = self.model.generate_json(system_prompt, full_prompt)
+                model_latency = time.time() - model_start
 
                 # Step 4: Validate with Pydantic
                 validated = self._validate_extraction(raw_result)
@@ -155,6 +165,8 @@ class CTIPipeline:
                     file_source=file_source,
                     extraction=extraction_dict,
                     processing_time_seconds=round(processing_time, 2),
+                    model_latency_seconds=round(model_latency, 2),
+                    retriever_latency_seconds=round(retriever_latency, 2),
                     status="success" if validated else "partial",
                 )
 
@@ -173,7 +185,7 @@ class CTIPipeline:
 
             completed_results.append(result)
 
-            # Checkpoint
+            # Checkpoint (run-ID isolated)
             if (i + 1) % self.checkpoint_interval == 0:
                 self._save_checkpoint(completed_results, i + 1)
 
@@ -190,6 +202,9 @@ class CTIPipeline:
         # Save final output
         output_path = self._save_results(completed_results, all_events)
         total_time = time.time() - start_time
+
+        # Save run manifest for reproducibility
+        self._save_run_manifest(completed_results, total_time)
 
         # Summary
         success = sum(1 for r in completed_results if r.status == "success")
@@ -278,6 +293,16 @@ class CTIPipeline:
             valid_entities = []
             for entity in repaired.get("entities", []):
                 if isinstance(entity, dict):
+                    # Ensure values are strings
+                    for key in ["text", "type", "canonical_name"]:
+                        val = entity.get(key)
+                        if isinstance(val, list):
+                            entity[key] = ", ".join(str(item) for item in val)
+                        elif val is None:
+                            entity[key] = ""
+                        else:
+                            entity[key] = str(val)
+
                     # Ensure required fields with defaults
                     entity.setdefault("text", "")
                     entity.setdefault("type", "unknown")
@@ -292,6 +317,16 @@ class CTIPipeline:
             valid_relations = []
             for relation in repaired.get("relations", []):
                 if isinstance(relation, dict):
+                    # Ensure values are strings
+                    for key in ["head", "relation", "tail"]:
+                        val = relation.get(key)
+                        if isinstance(val, list):
+                            relation[key] = ", ".join(str(item) for item in val)
+                        elif val is None:
+                            relation[key] = ""
+                        else:
+                            relation[key] = str(val)
+
                     relation.setdefault("head", "")
                     relation.setdefault("relation", "associated_with")
                     relation.setdefault("tail", "")
@@ -330,6 +365,9 @@ class CTIPipeline:
             timestamp=datetime.now().isoformat(),
             dataset_size=len(results),
             dev_mode=self.dev_mode,
+            run_id=self.run_id,
+            git_hash=self.git_hash,
+            temperature=self.temperature,
         )
 
         output = ExperimentOutput(
@@ -347,9 +385,42 @@ class CTIPipeline:
         logger.info("Results saved: %s", output_path)
         return output_path
 
+    def _save_run_manifest(self, results: List[EventResult], total_time: float) -> None:
+        """
+        Save a run manifest with full configuration and environment details.
+
+        This ensures every run can be reproduced by capturing the exact
+        settings, code version, and runtime environment.
+        """
+        self.run_dir.mkdir(parents=True, exist_ok=True)
+
+        manifest = {
+            "run_id": self.run_id,
+            "model_name": self.model_name,
+            "retriever_name": self.retriever_name,
+            "dev_mode": self.dev_mode,
+            "max_events": self.max_events,
+            "temperature": self.temperature,
+            "git_hash": self.git_hash,
+            "timestamp": datetime.now().isoformat(),
+            "total_time_seconds": round(total_time, 2),
+            "events_processed": len(results),
+            "events_success": sum(1 for r in results if r.status == "success"),
+            "events_partial": sum(1 for r in results if r.status == "partial"),
+            "events_error": sum(1 for r in results if r.status == "error"),
+            "python_version": sys.version,
+            "platform": platform.platform(),
+        }
+
+        manifest_path = self.run_dir / "run_manifest.json"
+        with open(manifest_path, "w", encoding="utf-8") as f:
+            json.dump(manifest, f, indent=2, ensure_ascii=False)
+
+        logger.info("Run manifest saved: %s", manifest_path)
+
     def _save_checkpoint(self, results: List[EventResult], index: int) -> None:
         """
-        Save a checkpoint for crash recovery.
+        Save a checkpoint for crash recovery (run-ID isolated).
 
         Args:
             results: Results processed so far.
@@ -358,6 +429,7 @@ class CTIPipeline:
         self.checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
         checkpoint = {
+            "run_id": self.run_id,
             "model_name": self.model_name,
             "retriever_name": self.retriever_name,
             "events_processed": index,
@@ -365,9 +437,10 @@ class CTIPipeline:
             "results": [r.model_dump() for r in results],
         }
 
+        # Use run_id in filename to prevent cross-run contamination
         checkpoint_path = (
             self.checkpoint_dir
-            / f"checkpoint_{self.model_name}_{self.retriever_name}_{index}.json"
+            / f"checkpoint_{self.run_id}_{index}.json"
         )
 
         with open(checkpoint_path, "w", encoding="utf-8") as f:
@@ -401,7 +474,7 @@ class CTIPipeline:
 
     def _load_checkpoint_results(self, index: int) -> List[EventResult]:
         """
-        Load results from a checkpoint file.
+        Load results from the most recent matching checkpoint file.
 
         Args:
             index: The checkpoint event index.
@@ -409,14 +482,21 @@ class CTIPipeline:
         Returns:
             List of EventResult objects from the checkpoint.
         """
-        pattern = f"checkpoint_{self.model_name}_{self.retriever_name}_{index}.json"
-        checkpoint_path = self.checkpoint_dir / pattern
+        pattern = f"checkpoint_{self.model_name}_{self.retriever_name}_*_{index}.json"
+        checkpoints = sorted(self.checkpoint_dir.glob(pattern))
 
-        if not checkpoint_path.exists():
-            return []
+        if not checkpoints:
+            # Fallback: try the old naming convention
+            old_pattern = f"checkpoint_{self.model_name}_{self.retriever_name}_{index}.json"
+            checkpoint_path = self.checkpoint_dir / old_pattern
+            if not checkpoint_path.exists():
+                return []
+            checkpoints = [checkpoint_path]
+
+        latest = checkpoints[-1]
 
         try:
-            with open(checkpoint_path, "r", encoding="utf-8") as f:
+            with open(latest, "r", encoding="utf-8") as f:
                 data = json.load(f)
             return [EventResult(**r) for r in data.get("results", [])]
         except Exception as e:

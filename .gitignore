@@ -32,6 +32,11 @@ outputs/run_*/
 checkpoints/*.json
 logs/*.log
 
+# Cache (preprocessed data, rebuilt on demand)
+cache/*.json
+cache/*.npz
+cache/*.pkl
+
 # Jupyter
 .ipynb_checkpoints/
 
