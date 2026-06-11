@@ -88,6 +88,11 @@ MODEL_REGISTRY = {
         "module": "models.ollama_model",
         "model_id": "gemma_e2b:latest",
     },
+    "ollama_llama3": {
+        "class": "OllamaLLM",
+        "module": "models.ollama_model",
+        "model_id": "llama3",
+    },
 }
 
 # ─── Retriever Registry ──────────────────────────────────────────────────────

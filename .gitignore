@@ -43,3 +43,7 @@ cache/*.pkl
 # Distribution
 *.whl
 *.tar.gz
+
+
+outputs/
+cache/

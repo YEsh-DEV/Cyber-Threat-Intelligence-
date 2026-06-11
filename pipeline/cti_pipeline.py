@@ -142,6 +142,7 @@ class CTIPipeline:
             event_id = event["event_id"]
             global_id = event["global_id"]
             file_source = event["file_source"]
+            narrative = event["narrative"]
 
             logger.info(
                 "Processing event %d/%d (Global ID=%s)",
@@ -153,12 +154,15 @@ class CTIPipeline:
             try:
                 # Step 1: Get retrieval context (tracked timing)
                 retriever_start = time.time()
-                # Pass global_id to retriever for caching support
-                context = self.retriever.get_context(event["narrative"], global_id=global_id)
+                context = []
+                if self._is_semantic_narrative(narrative):
+                    context = self.retriever.get_context(narrative, global_id=global_id)
+                else:
+                    logger.info("Event %s is non-semantic/IOC-only. Bypassing retrieval.", global_id)
                 retriever_latency = time.time() - retriever_start
 
                 # Step 2: Build the full prompt
-                full_prompt = self._build_prompt(event["narrative"], context)
+                full_prompt = self._build_prompt(narrative, context)
 
                 # Step 3: Query the LLM (tracked timing)
                 system_prompt = self._get_system_prompt()
@@ -235,6 +239,12 @@ class CTIPipeline:
         logger.info("Output saved to: %s", output_path)
 
         return str(output_path)
+
+    def _is_semantic_narrative(self, narrative: str) -> bool:
+        if not narrative:
+            return False
+        return len(narrative) > 100 and len(narrative.split()) > 10
+
 
     def _load_prompt(self) -> str:
         """Load the extraction prompt template from file."""
