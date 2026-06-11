@@ -47,3 +47,8 @@ cache/*.pkl
 
 outputs/
 cache/
+logs/
+checkpoints/
+scratch/
+tests/
+run_*.py
