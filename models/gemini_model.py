@@ -41,8 +41,16 @@ class GeminiLLM(BaseLLM):
         if not self.api_key:
             logger.warning("Gemini API key not configured. Calls will fail.")
 
-        # API endpoint URL
-        self._url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model_id}:generateContent?key={self.api_key}"
+        # Determine if standard API key or OAuth Token
+        if self.api_key.startswith("AIza"):
+            self._url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model_id}:generateContent?key={self.api_key}"
+            self._headers = {"Content-Type": "application/json"}
+        else:
+            self._url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model_id}:generateContent"
+            self._headers = {
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {self.api_key}"
+            }
 
     def generate_json(
         self,
@@ -92,6 +100,7 @@ class GeminiLLM(BaseLLM):
 
                 response = requests.post(
                     self._url,
+                    headers=self._headers,
                     json=payload,
                     timeout=self.request_timeout,
                 )
@@ -168,6 +177,7 @@ class GeminiLLM(BaseLLM):
 
         response = requests.post(
             self._url,
+            headers=self._headers,
             json=payload,
             timeout=self.request_timeout,
         )

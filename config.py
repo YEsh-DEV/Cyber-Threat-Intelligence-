@@ -93,6 +93,11 @@ MODEL_REGISTRY = {
         "module": "models.ollama_model",
         "model_id": "llama3",
     },
+    "ollama_qwen": {
+        "class": "OllamaLLM",
+        "module": "models.ollama_model",
+        "model_id": "qwen2.5-coder:7b",
+    },
 }
 
 # ─── Retriever Registry ──────────────────────────────────────────────────────
