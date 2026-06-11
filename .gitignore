@@ -52,3 +52,5 @@ checkpoints/
 scratch/
 tests/
 run_*.py
+deliverables/
+archive/
