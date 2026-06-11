@@ -58,7 +58,15 @@ Return ONLY valid JSON in this exact structure:
 4. Assign confidence scores conservatively — lower scores for inferred information.
 5. If no entities or relations can be extracted, return empty lists.
 
-{context_block}
+## STRICT BACKGROUND KNOWLEDGE RULE
+The retrieved context is background knowledge only.
+
+Do NOT extract entities, actors, malware, campaigns, techniques, or relationships from the retrieved context.
+
+Only extract information explicitly mentioned in the Event Narrative.
+
+Retrieved context may be used only to improve understanding.
+
 
 ## Event Narrative
 {event_narrative}

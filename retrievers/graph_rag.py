@@ -206,10 +206,10 @@ class GraphRAGRetriever(BaseRetriever):
                     rel_type = edge_data.get("relationship_type", "associated_with")
                     neighbor_attrs = self.graph.nodes[neighbor_id]
                     
-                    # Format: "Cobalt Strike (Malware) USES PowerShell (Technique)"
                     rel_statement = (
-                        f"- {node_name} ({node_type}) {rel_type.upper().replace('-', '_')} "
-                        f"{neighbor_attrs['name']} ({neighbor_attrs['type']})"
+                        f"Historical Relationship: {node_name} ({node_type}) has been {rel_type.upper().replace('-', '_')} "
+                        f"{neighbor_attrs['name']} ({neighbor_attrs['type']}) in external CTI reporting. "
+                        "This information is NOT part of the event."
                     )
                     relations_str_list.append(rel_statement)
 
@@ -219,10 +219,10 @@ class GraphRAGRetriever(BaseRetriever):
                     rel_type = edge_data.get("relationship_type", "associated_with")
                     neighbor_attrs = self.graph.nodes[neighbor_id]
                     
-                    # Format: "APT29 (Threat Group) USES Cobalt Strike (Malware)"
                     rel_statement = (
-                        f"- {neighbor_attrs['name']} ({neighbor_attrs['type']}) {rel_type.upper().replace('-', '_')} "
-                        f"{node_name} ({node_type})"
+                        f"Historical Relationship: {neighbor_attrs['name']} ({neighbor_attrs['type']}) has been {rel_type.upper().replace('-', '_')} "
+                        f"{node_name} ({node_type}) in external CTI reporting. "
+                        "This information is NOT part of the event."
                     )
                     relations_str_list.append(rel_statement)
 
@@ -234,6 +234,10 @@ class GraphRAGRetriever(BaseRetriever):
                     f"Description: {node_desc[:600]}...\n\n"
                     f"Mapped Relationships:\n{relations_block}"
                 )
+                
+                # Truncate context to prevent overwhelming smaller models
+                if len(passage) > 1500:
+                    passage = passage[:1500] + "\n...[Context truncated for size]..."
 
                 context_passages.append(passage)
 

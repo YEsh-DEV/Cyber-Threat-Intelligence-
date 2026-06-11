@@ -35,7 +35,7 @@ logger = logging.getLogger("demo_runner")
 
 # Configuration
 EXTRACTION_MODEL = "llama_groq"      # Groq API for extraction
-EVALUATOR_MODEL = "ollama_qwen"      # Local Ollama - no API quota
+EVALUATOR_MODEL = "ollama_gemma"      # Local Ollama - no API quota
 METHODS = ["llm_only", "vanilla_rag", "graph_rag"]
 NUM_EVENTS = 10
 RANDOM_SEED = 42
@@ -138,7 +138,9 @@ def step3_run_single_method(method, demo_events):
         try:
             # Step 1: Get retrieval context
             retriever_start = time.time()
-            if method != "llm_only" and len(narrative) > 100 and len(narrative.split()) > 10:
+            is_ioc_only = len(narrative) < 150 or len(narrative.split()) < 20
+
+            if method != "llm_only" and not is_ioc_only:
                 context = retriever.get_context(narrative, global_id=global_id)
             else:
                 context = []
@@ -146,12 +148,12 @@ def step3_run_single_method(method, demo_events):
 
             # Step 2: Build prompt
             if context:
-                context_text = "## Retrieved Context\n"
+                context_text = "====================\nBACKGROUND CONTEXT\n(Not Ground Truth)\n====================\n"
                 for ci, passage in enumerate(context, 1):
                     context_text += f"\n### Context {ci}\n{passage}\n"
             else:
                 context_text = ""
-            user_prompt = f"{context_text}\n## Event Narrative\n{narrative}"
+            user_prompt = f"{context_text}\n====================\nEVENT NARRATIVE\n(Only Source of Truth)\n====================\n{narrative}"
 
             # Step 3: Query LLM
             model_start = time.time()

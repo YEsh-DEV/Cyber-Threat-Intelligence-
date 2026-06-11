@@ -39,7 +39,7 @@ if len(sys.argv) < 2:
     sys.exit(1)
 
 EXTRACTION_MODEL = sys.argv[1]       # Model from CLI
-EVALUATOR_MODEL = "ollama_qwen"      # Local Ollama
+EVALUATOR_MODEL = "ollama_gemma"      # Local Ollama
 METHODS = ["llm_only", "vanilla_rag", "graph_rag"]
 NUM_EVENTS = 3                       # Mini run as requested
 RANDOM_SEED = 42
@@ -96,18 +96,20 @@ def step3_run_single_method(method, demo_events):
         narrative = event["narrative"]
 
         try:
-            if method != "llm_only" and len(narrative) > 100 and len(narrative.split()) > 10:
+            is_ioc_only = len(narrative) < 150 or len(narrative.split()) < 20
+
+            if method != "llm_only" and not is_ioc_only:
                 context = retriever.get_context(narrative, global_id=global_id)
             else:
                 context = []
 
             if context:
-                context_text = "## Retrieved Context\n"
+                context_text = "====================\nBACKGROUND CONTEXT\n(Not Ground Truth)\n====================\n"
                 for ci, passage in enumerate(context, 1):
                     context_text += f"\n### Context {ci}\n{passage}\n"
             else:
                 context_text = ""
-            user_prompt = f"{context_text}\n## Event Narrative\n{narrative}"
+            user_prompt = f"{context_text}\n====================\nEVENT NARRATIVE\n(Only Source of Truth)\n====================\n{narrative}"
 
             raw_result = model.generate_json(system_prompt, user_prompt)
             entities = raw_result.get("entities", [])
