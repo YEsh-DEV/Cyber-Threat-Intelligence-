@@ -149,6 +149,11 @@ The pipeline compares three methodologies to demonstrate the power of contextual
 ```
 
 ---
+## Output :
+<img width="1910" height="927" alt="Screenshot 2026-06-11 183210" src="https://github.com/user-attachments/assets/a3f4ce60-f980-4a16-aa40-748af4a69328" />
+<img width="1042" height="771" alt="Screenshot 2026-06-11 220101" src="https://github.com/user-attachments/assets/4de47b32-26d5-4975-87c8-bcff9c7e5781" />
+<img width="1046" height="617" alt="Screenshot 2026-06-11 215750" src="https://github.com/user-attachments/assets/55187f07-59cc-40d4-843e-ef3b6d472322" />
+<img width="1026" height="937" alt="Screenshot 2026-06-11 214320" src="https://github.com/user-attachments/assets/065650af-d9a7-408d-a9d0-f7e9a0fc1cf3" />
 
 <div align="center">
   <b>Built for Advanced Cyber Threat Intelligence Research</b>
